@@ -54,9 +54,6 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
-/Paranoid Android/Packages/packages-lock.json
-/Paranoid Android/ProjectSettings/PackageManagerSettings.asset
-/Paranoid Android/ProjectSettings/ProjectVersion.txt
 
 # Unity3D generated meta files
 *.pidb.meta
