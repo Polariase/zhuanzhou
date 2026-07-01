@@ -139,8 +139,8 @@ GameObject:
   - component: {fileID: 3674084902308219626}
   - component: {fileID: 3635529293764125070}
   - component: {fileID: 2934565871224816059}
-  - component: {fileID: 683532735568424918}
   - component: {fileID: 2473780747686786387}
+  - component: {fileID: 1161173514648402126}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -175,7 +175,7 @@ Animator:
   m_GameObject: {fileID: 618075540778541970}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 5fb2ad19af5de3143b7309b2903bfb23, type: 3}
-  m_Controller: {fileID: 22100000, guid: e33b5b229f14a5443b4449396c476cb2, type: 2}
+  m_Controller: {fileID: 9100000, guid: c89fa17f58507464da38f534cf0721d3, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -217,31 +217,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &683532735568424918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 618075540778541970}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7024fd05743393f4cae1c3d39b72f9ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGrounded: 0
-  isMoving: 0
-  isJumping: 0
-  camTarget: {fileID: 2758899161256369931}
-  topClamp: 45
-  botClamp: -30
-  camAngleOverride: 0
-  xSens: 16
-  ySens: 8
-  lockCam: 0
-  moveSpeed: 5
-  rotationSpeed: 15
-  gravity: -15
 --- !u!143 &2473780747686786387
 CharacterController:
   m_ObjectHideFlags: 0
@@ -268,6 +243,49 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.75, z: 0}
+--- !u!114 &1161173514648402126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618075540778541970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7024fd05743393f4cae1c3d39b72f9ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats:
+    currentSelectedIndex: 0
+    currentSelectedItem:
+      count: 0
+      data: {fileID: 0}
+    maxHp: 200
+    hp: 200
+    maxLoad: 100
+    currentLoad: 0
+    overloaded: 0
+    coolingDelay: 1
+    initialCoolingRate: 10
+    coolingAcceleration: 15
+  modelRoot: {fileID: 7038031413871795085}
+  isGrounded: 0
+  isMoving: 0
+  isJumping: 0
+  isAiming: 0
+  isRunning: 0
+  camTarget: {fileID: 2758899161256369931}
+  topClamp: 45
+  botClamp: -30
+  camAngleOverride: 0
+  xSens: 16
+  ySens: 5
+  lockCam: 0
+  moveSpeed: 2.5
+  runSpeedScale: 2
+  rotationSpeed: 15
+  gravity: -15
+  animDampTime: 0.1
 --- !u!1 &738346214704364190
 GameObject:
   m_ObjectHideFlags: 0
