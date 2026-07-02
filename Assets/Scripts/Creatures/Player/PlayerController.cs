@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private InputAction _look;
     private InputAction _move;
     private InputAction _run;
+    private InputAction _jump;
 
     private Vector2 _inputDir;
     private CharacterController _cc;
@@ -24,7 +25,6 @@ public class PlayerController : MonoBehaviour
 
     public bool isGrounded;
     public bool isMoving;
-    public bool isJumping;
     public bool isAiming;
     public bool isRunning;
 
@@ -44,15 +44,32 @@ public class PlayerController : MonoBehaviour
     private Camera _mainCamera;
 
     [Header("Movement Settings")]
-    public float moveSpeed = 2.5f;
+    public float moveSpeed = 3f;
     public float runSpeedScale = 2f;
+    public float airSpeedScale = 2f;
     public float rotationSpeed = 15f;
     public float gravity = -15f;
-
+    public float jumpHeight = 3f;
+    private bool _jumpRequested;
     public float animDampTime = 0.1f;
+
+    public float groundedCheckDelay = 0.12f;
+    private float _groundedTimer;
+    private bool _animLandedState = true;
 
     private Vector3 _velocity;
 
+    public float SpeedScale()
+    {
+        float scale = 1f;
+        if (isRunning && isGrounded)
+            scale *= runSpeedScale;
+        else if (!isGrounded)
+            scale *= airSpeedScale;
+
+
+        return scale;
+    }
 
 
     private void Awake()
@@ -62,17 +79,16 @@ public class PlayerController : MonoBehaviour
         else
             Destroy(gameObject);
 
+        _groundedTimer = groundedCheckDelay;
+
         _input = GetComponent<PlayerInput>();
-
-        _look = _input.actions["Look"];
-
-        _move = _input.actions["Move"];
-
-        _cc = GetComponent<CharacterController>();
-        _run = _input.actions["Run"];
-
         _cc = GetComponent<CharacterController>();
         _anim = GetComponent<Animator>();
+
+        _look = _input.actions["Look"];
+        _move = _input.actions["Move"];
+        _run = _input.actions["Run"];
+        _jump = _input.actions["Jump"];
 
         modelRoot = transform.Find("ModelRoot");
     }
@@ -95,6 +111,19 @@ public class PlayerController : MonoBehaviour
         isMoving = _inputDir.sqrMagnitude >= _threshold;
         isRunning = _run.IsPressed();
         isGrounded = _cc.isGrounded;
+        if (isGrounded)
+        {
+            _groundedTimer = groundedCheckDelay;
+            _animLandedState = true;
+        }
+        else
+        {
+            _groundedTimer -= Time.deltaTime;
+            if (_groundedTimer <= 0)
+            {
+                _animLandedState = false;
+            }
+        }
 
         HandleMovement();
         HandleAnimation();
@@ -105,7 +134,29 @@ public class PlayerController : MonoBehaviour
         HandleRotation();
     }
 
+    private void OnEnable()
+    {
+        if (_jump != null)
+        {
+            _jump.performed += OnJumpAction;
+        }
+    }
 
+    private void OnDisable()
+    {
+        if (_jump != null)
+        {
+            _jump.performed -= OnJumpAction;
+        }
+    }
+
+    private void OnJumpAction(InputAction.CallbackContext context)
+    {
+        if (isGrounded)
+        {
+            _jumpRequested = true;
+        }
+    }
 
     private bool IsCurrentDeviceMouse => _input.currentControlScheme == "KeyboardMouse";
 
@@ -125,7 +176,7 @@ public class PlayerController : MonoBehaviour
             _velocity.y = -2f;
         }
 
-        float currentSpeed = moveSpeed * (isRunning ? runSpeedScale : 1f);
+        float currentSpeed = moveSpeed * SpeedScale();
         Vector3 moveTargetDir = Vector3.zero;
 
         if (isMoving && _mainCamera != null)
@@ -146,6 +197,19 @@ public class PlayerController : MonoBehaviour
 
         _cc.Move(moveTargetDir * (currentSpeed * Time.deltaTime));
 
+        if (_jumpRequested)
+        {
+            _velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            _jumpRequested = false;
+            _animLandedState = false;
+
+            if (_anim != null)
+            {
+                _anim.SetTrigger("Jump");
+                Debug.Log("jump");
+            }
+        }
+
         _velocity.y += gravity * Time.deltaTime;
         _cc.Move(_velocity * Time.deltaTime);
     }
@@ -158,15 +222,12 @@ public class PlayerController : MonoBehaviour
         float targetAnimY = 0f;
         if (isMoving)
         {
-            targetAnimY = 0.5f * (isRunning ? 2f : 1f);
+            targetAnimY = 0.5f * SpeedScale();
         }
 
         _anim.SetFloat("X", targetAnimX, animDampTime, Time.deltaTime);
         _anim.SetFloat("Y", targetAnimY, animDampTime, Time.deltaTime);
-
-        // 以后你可以在这里轻松扩展其他动画：
-        // _anim.SetBool("IsGrounded", isGrounded);
-        // _anim.SetBool("IsJumping", isJumping);
+        _anim.SetBool("Landed", _animLandedState);
     }
 
     private void HandleRotation()
