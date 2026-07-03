@@ -69,11 +69,13 @@ public class PlayerController : MonoBehaviour
     private Vector3 _velocity;
 
     public float jumpCost = 25f;
+    public float runCost = 10f;
 
     public bool CanAct => !chantStart && !chantRecovery;
     public bool CanJump => isGrounded && stats.stamina >= jumpCost && !isChanting && CanAct;
     public bool CanChant => isGrounded && !isChanting && CanAct;
     public bool CanMove => !isChanting && CanAct;
+    public bool CanRun => stats.stamina > 0f;
 
     public bool CanRecHp => true;
     public bool CanRecMana=> true;
@@ -139,7 +141,7 @@ public class PlayerController : MonoBehaviour
 
         _inputDir = _move.ReadValue<Vector2>();
         isMoving = (_inputDir.sqrMagnitude >= _threshold) && CanMove;
-        isRunning = _run.IsPressed();
+
         isGrounded = _cc.isGrounded;
         if (isGrounded)
         {
@@ -230,6 +232,15 @@ public class PlayerController : MonoBehaviour
         {
             _velocity.y = -2f;
         }
+
+        if (CanRun)
+        {
+            isRunning = _run.IsPressed();
+            if (isRunning)
+                stats.Rest(-Time.deltaTime * runCost);
+        }
+        else
+            isRunning = false;
 
         float currentSpeed = moveSpeed * SpeedScale();
         Vector3 moveTargetDir = Vector3.zero;
