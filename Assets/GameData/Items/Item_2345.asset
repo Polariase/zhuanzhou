@@ -17,8 +17,8 @@ MonoBehaviour:
   description: "\u6765\u81EA\u8FD9\u4E2A\u5C9B\u4E0A\u6700\u5F3A\u751F\u7269\u7684\u8089\uFF0C\u8FD9\u662F\u4F60\u5236\u9738\u8FD9\u5EA7\u5C9B\u5C7F\u7684\u5956\u7AE0\u3002"
   maxStack: 1
   itemType: 1
-  iconAddress: "\u7EC8\u7109\u6076\u9B54\u7684\u8089Icon"
-  prefabAddress: "\u8089"
+  iconAddress: "\u751F\u8089Icon"
+  prefabAddress: "\u751F\u8089"
   windPot: 33
   firePot: 33
   waterPot: 33

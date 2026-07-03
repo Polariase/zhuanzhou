@@ -253,6 +253,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stone_E
       objectReference: {fileID: 0}
+    - target: {fileID: 6049814267422437787, guid: ed013f0369fbebc4abac99e524f01cd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6394709776608897825, guid: ed013f0369fbebc4abac99e524f01cd3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -320,6 +325,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tree_Oak_Big_Dead_Fantasy (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6200458839305478510, guid: d1372f4f16e828a4d92feb76e91e5df4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6721522225545722836, guid: d1372f4f16e828a4d92feb76e91e5df4,
         type: 3}
@@ -416,6 +426,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tree_Oak_Big_Dead_Fantasy
+      objectReference: {fileID: 0}
+    - target: {fileID: 6200458839305478510, guid: d1372f4f16e828a4d92feb76e91e5df4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6721522225545722836, guid: d1372f4f16e828a4d92feb76e91e5df4,
         type: 3}
@@ -560,6 +575,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Bridge_Underground
+      objectReference: {fileID: 0}
+    - target: {fileID: 3404484923757675325, guid: 70ed7ac1ffbf39b43b6e246d6c44ce91,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -817,6 +837,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Iceberg_Small_C
       objectReference: {fileID: 0}
+    - target: {fileID: 5405002378333092463, guid: a2f034c7c94d61345b411229f1249609,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -957,6 +982,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Iceberg_Small_C (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5405002378333092463, guid: a2f034c7c94d61345b411229f1249609,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1044,6 +1074,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tree_Oak_Big_Dead_Fantasy (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6200458839305478510, guid: d1372f4f16e828a4d92feb76e91e5df4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6721522225545722836, guid: d1372f4f16e828a4d92feb76e91e5df4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1099,6 +1134,79 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1372f4f16e828a4d92feb76e91e5df4, type: 3}
+--- !u!1001 &3327663809553696178
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 607197328541205738, guid: 2d774e74d60fc4d40b8e6b8563e0daf0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.1357923
+      objectReference: {fileID: 0}
+    - target: {fileID: 607197328541205738, guid: 2d774e74d60fc4d40b8e6b8563e0daf0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.15339035
+      objectReference: {fileID: 0}
+    - target: {fileID: 607197328541205738, guid: 2d774e74d60fc4d40b8e6b8563e0daf0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.9871649
+      objectReference: {fileID: 0}
+    - target: {fileID: 607197328541205738, guid: 2d774e74d60fc4d40b8e6b8563e0daf0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 607197328541205738, guid: 2d774e74d60fc4d40b8e6b8563e0daf0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.000000081460335
+      objectReference: {fileID: 0}
+    - target: {fileID: 607197328541205738, guid: 2d774e74d60fc4d40b8e6b8563e0daf0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607197328541205738, guid: 2d774e74d60fc4d40b8e6b8563e0daf0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607197328541205738, guid: 2d774e74d60fc4d40b8e6b8563e0daf0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607197328541205738, guid: 2d774e74d60fc4d40b8e6b8563e0daf0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607197328541205738, guid: 2d774e74d60fc4d40b8e6b8563e0daf0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4721788019784814153, guid: 2d774e74d60fc4d40b8e6b8563e0daf0,
+        type: 3}
+      propertyPath: m_Name
+      value: huitugou_7161_01_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4721788019784814153, guid: 2d774e74d60fc4d40b8e6b8563e0daf0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2d774e74d60fc4d40b8e6b8563e0daf0, type: 3}
 --- !u!1001 &8017568544344890206
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1287,3 +1395,4 @@ SceneRoots:
   - {fileID: 839429694}
   - {fileID: 585614698}
   - {fileID: 2140438137}
+  - {fileID: 3327663809553696178}

@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Item_2001
   m_EditorClassIdentifier: 
   itemID: 2001
-  itemName: "\u8611\u83C7"
-  description: "\u98DF\u7269\uFF0C\u98DF\u7528\u540E\u4F1A\u548C\u81EA\u7136\u66F4\u4EB2\u8FD1\u3002"
+  itemName: "\u897F\u7EA2\u67FF"
+  description: "\u98DF\u7269\uFF0C\u6709\u6728\u5C5E\u6027\u80FD\u91CF\u7684\u6B8B\u7559\u3002\u6728\u5C5E\u6027\u80FD\u91CF\u4F1A\u548C\u81EA\u7136\u66F4\u4EB2\u8FD1\u3002"
   maxStack: 10
   itemType: 1
-  iconAddress: "\u8611\u83C7Icon"
-  prefabAddress: "\u8611\u83C7"
+  iconAddress: "\u897F\u7EA2\u67FFIcon"
+  prefabAddress: "\u897F\u7EA2\u67FF"
   windPot: 0
   firePot: 0
   waterPot: 0
