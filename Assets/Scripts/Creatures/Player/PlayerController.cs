@@ -17,16 +17,25 @@ public class PlayerController : MonoBehaviour
     private InputAction _move;
     private InputAction _run;
     private InputAction _jump;
+    private InputAction _chant;
+    private InputAction _cancel;
+    private InputAction _complete;
+    private InputAction _backspace;
 
     private Vector2 _inputDir;
     private CharacterController _cc;
     public Transform modelRoot;
+    private CircleController _circle;
     private Animator _anim;
 
     public bool isGrounded;
     public bool isMoving;
     public bool isAiming;
     public bool isRunning;
+    public bool isChanting;
+
+    public bool chantStart;
+    public bool chantRecovery;
 
     [Header("Cinemachine")]
     public GameObject camTarget;
@@ -53,11 +62,23 @@ public class PlayerController : MonoBehaviour
     private bool _jumpRequested;
     public float animDampTime = 0.1f;
 
-    public float groundedCheckDelay = 0.12f;
+    public float groundedCheckDelay = 0.75f;
     private float _groundedTimer;
     private bool _animLandedState = true;
 
     private Vector3 _velocity;
+
+    public float jumpCost = 25f;
+
+    public bool CanAct => !chantStart && !chantRecovery;
+    public bool CanJump => isGrounded && stats.stamina >= jumpCost && !isChanting && CanAct;
+    public bool CanChant => isGrounded && !isChanting && CanAct;
+    public bool CanMove => !isChanting && CanAct;
+
+    public bool CanRecHp => true;
+    public bool CanRecMana=> true;
+    public bool CanRecSt => isGrounded;
+
 
     public float SpeedScale()
     {
@@ -84,13 +105,20 @@ public class PlayerController : MonoBehaviour
         _input = GetComponent<PlayerInput>();
         _cc = GetComponent<CharacterController>();
         _anim = GetComponent<Animator>();
+        _circle = GetComponent<CircleController>();
 
         _look = _input.actions["Look"];
         _move = _input.actions["Move"];
         _run = _input.actions["Run"];
         _jump = _input.actions["Jump"];
+        _chant = _input.actions["Chant"];
+        _cancel = _input.actions["Cancel"];
+        _complete = _input.actions["Complete"];
+        _backspace = _input.actions["Backspace"];
 
         modelRoot = transform.Find("ModelRoot");
+
+        stats = new PlayerStats();
     }
 
 
@@ -107,8 +135,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        Recovery();
+
         _inputDir = _move.ReadValue<Vector2>();
-        isMoving = _inputDir.sqrMagnitude >= _threshold;
+        isMoving = (_inputDir.sqrMagnitude >= _threshold) && CanMove;
         isRunning = _run.IsPressed();
         isGrounded = _cc.isGrounded;
         if (isGrounded)
@@ -136,26 +166,51 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        if (_jump != null)
-        {
-            _jump.performed += OnJumpAction;
-        }
+        _jump.performed += OnJumpAction;
+        _chant.performed += OnChantAction;
+        _cancel.performed += OnAbortAction;
     }
 
     private void OnDisable()
     {
-        if (_jump != null)
-        {
-            _jump.performed -= OnJumpAction;
-        }
+        _jump.performed -= OnJumpAction;
+        _chant.performed -= OnChantAction;
+        _cancel.performed -= OnAbortAction;
+    }
+
+    private void Recovery()
+    {
+        if (CanRecHp)
+            stats.RecoverHp(Time.deltaTime);
+
+        if (CanRecMana)
+            stats.RecoverMana(Time.deltaTime);
+
+        if (CanRecSt)
+            stats.RecoverStamina(Time.deltaTime);
+    }
+
+    private void OnChantAction(InputAction.CallbackContext context)
+    {
+        if (!CanChant || !CanAct) return;
+        isChanting = true;
+        _circle.ToggleState(true);
+        _anim.SetBool("Chanting", true);
+    }
+
+    private void OnAbortAction(InputAction.CallbackContext context)
+    {
+        if (!isChanting || !CanAct) return;
+        isChanting = false;
+        _circle.ToggleState(false);
+        _anim.SetBool("Chanting", false);
     }
 
     private void OnJumpAction(InputAction.CallbackContext context)
     {
-        if (isGrounded)
-        {
-            _jumpRequested = true;
-        }
+        if (!CanJump) return;
+        _jumpRequested = true;
+        stats.Rest(-jumpCost);
     }
 
     private bool IsCurrentDeviceMouse => _input.currentControlScheme == "KeyboardMouse";

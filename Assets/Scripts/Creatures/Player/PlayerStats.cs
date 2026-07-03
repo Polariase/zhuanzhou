@@ -1,133 +1,155 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
 public class PlayerStats
 {
     //物品栏
-    public int currentSelectedIndex = 0;
-    public InventoryItem currentSelectedItem;
-    public Action<int, InventoryItem> OnSelectedChanged;
+    //public int currentSelectedIndex = 0;
+    //public InventoryItem currentSelectedItem;
+    //public Action<int, InventoryItem> OnSelectedChanged;
 
     public void ClearAllSubscribers()
     {
-        OnSelectedChanged = null;
-        OnHpChanged = null;
-        OnLoadChanged = null;
+        //OnSelectedChanged = null;
+        //OnHpChanged = null;
+        //OnManaChanged = null;
     }
 
     public void ResetStatus(bool heal)
     {
-        if (heal)
-            hp = maxHp;
-        currentLoad = 0f;
-        overloaded = false;
-        currentSelectedIndex = 0;
-        currentSelectedItem = null;
-        _coolingTimer = 0f;
+        //if (heal)
+        //    hp = maxHp;
+        //mana = 0f;
+        //overloaded = false;
+        //currentSelectedIndex = 0;
+        //currentSelectedItem = null;
+        //_coolingTimer = 0f;
     }
 
     public void UpdateSelection(int index,InventoryItem newItem)
     {
-        currentSelectedIndex = index;
-        currentSelectedItem = newItem;
-        OnSelectedChanged?.Invoke(currentSelectedIndex, newItem);
+        //currentSelectedIndex = index;
+        //currentSelectedItem = newItem;
+        //OnSelectedChanged?.Invoke(currentSelectedIndex, newItem);
     }
 
     //角色属性
-    public int maxHp = 200;
-    public int hp = 200;
-    public Action<int, int> OnHpChanged;
+    public float maxHp = 100f;
+    public float hp = 100f;
+    public Action<float, float> OnHpChanged;
 
-    public float maxLoad = 100f;
-    public float currentLoad = 0;
-    public Action<float, float> OnLoadChanged;
+    public float maxMana = 100f;
+    public float mana = 100f;
+    public Action<float, float> OnManaChanged;
 
-    public bool overloaded;
-    public float coolingDelay = 1f;
-    public float initialCoolingRate = 10f;
-    public float coolingAcceleration = 15f;
-    private float _coolingTimer;
+    public float maxStamina = 100f;
+    public float stamina = 100f;
+    public Action<float, float> OnStaminaChanged;
 
-    public float OverloadPercentage => Mathf.InverseLerp(0f, maxLoad, currentLoad);
+    public float stRec = 20f;
+    public float hpRec = 2f;
+    public float manaRec = 20f;
+    public float recCooldown = 1f;
+    private float _hpRecTimer;
+    private float _manaRecTimer;
+    private float _stRecTimer;
 
-    public void TakeDamage(int damage)
+    public void RecoverHp(float value)
     {
-        if (damage <= 0) return;
-        hp = Mathf.Max(hp - damage, 0);
-        OnHpChanged?.Invoke(hp, maxHp);
-
-        if (hp <= 0f)
-        {
-            // 通过其他事件通知玩家死亡
-        }
+        if (_hpRecTimer <= 0f)
+            Heal(value * hpRec);
+        else
+            _hpRecTimer -= value;
     }
 
-    public void Heal(int amount)
+    public void RecoverMana(float value)
     {
-        if (amount <= 0) return;
-        hp = Mathf.Min(hp + amount, maxHp);
+        if (_manaRecTimer <= 0f)
+            Regene(value * manaRec);
+        else
+            _manaRecTimer -= value;
+    }
+
+    public void RecoverStamina(float value)
+    {
+        if (_stRecTimer <= 0f)
+            Rest(value * stRec);
+        else
+            _stRecTimer -= value;
+    }
+
+    public void Heal(float amount)
+    {
+        if (amount < 0) _hpRecTimer = recCooldown;
+        hp = Mathf.Clamp(hp + amount,0f, maxHp);
         OnHpChanged?.Invoke(hp, maxHp);
     }
 
-    public void ModifyMaxHp(int newMaxHp, bool healToMax = false)
+    public void Regene(float amount)
+    {
+        if(amount < 0) _manaRecTimer = recCooldown;
+        mana = Mathf.Clamp(mana + amount,0f, maxMana);
+        OnManaChanged?.Invoke(mana, maxMana);
+    }
+
+    public void Rest(float amout)
+    {
+        if (amout < 0) _stRecTimer = recCooldown;
+        stamina = Mathf.Clamp(stamina + amout,0f, maxStamina);
+        OnStaminaChanged?.Invoke(stamina, maxStamina);
+    }
+
+    public void ModifyMaxHp(float newMaxHp, bool setToMax = false)
     {
         float oldMax = maxHp;
         maxHp = Mathf.Max(newMaxHp, 1);
 
-        if (healToMax)
+        if (setToMax)
         {
             hp = maxHp;
         }
         else
         {
             float pct = hp / oldMax;
-            hp = (int)(maxHp * pct);
+            hp = maxHp * pct;
         }
         OnHpChanged?.Invoke(hp, maxHp);
     }
 
-    public void Overload(float value)
+    public void ModifyMaxMana(float newMaxMana, bool setToMax = false)
     {
-        currentLoad += value;
-        _coolingTimer = 0f;
-        if (currentLoad >= maxLoad)
-            overloaded = true;
-        OnLoadChanged?.Invoke(currentLoad, maxLoad);
-    }
+        float oldMax = maxMana;
+        maxMana = Mathf.Max(newMaxMana, 1);
 
-    public void Cooling(float deltaTime)
-    {
-        if (currentLoad <= 0) return;
-
-        _coolingTimer += deltaTime;
-
-        if (_coolingTimer >= coolingDelay)
+        if (setToMax)
         {
-            float coolingDuration = _coolingTimer - coolingDelay;
-            float currentRate = initialCoolingRate + (coolingAcceleration * coolingDuration);
-            currentLoad -= currentRate * deltaTime;
-            currentLoad = Mathf.Max(currentLoad, 0f);
-            if (overloaded && currentLoad <= 0f)
-                overloaded = false;
-
-            OnLoadChanged?.Invoke(currentLoad, maxLoad);
+            mana = maxMana;
         }
-    }
-
-    public void ModifyMaxLoad(float newMaxLoad)
-    {
-        maxLoad = Mathf.Max(newMaxLoad, 1f);
-        if (currentLoad >= maxLoad)
+        else
         {
-            currentLoad = maxLoad;
-            if (!overloaded)
-            {
-                overloaded = true;
-            }
+            float pct = mana / oldMax;
+            mana = maxMana * pct;
         }
-        OnLoadChanged?.Invoke(currentLoad, maxLoad);
+        OnManaChanged?.Invoke(mana, maxMana);
     }
+
+    public void ModifyMaxStamina(int newMaxStamina, bool setToMax = false)
+    {
+        float oldMax = maxStamina;
+        maxStamina = Mathf.Max(newMaxStamina, 1);
+
+        if (setToMax)
+        {
+            stamina = maxStamina;
+        }
+        else
+        {
+            float pct = stamina / oldMax;
+            stamina = maxStamina * pct;
+        }
+        OnStaminaChanged?.Invoke(stamina, maxStamina);
+    }
+
+
 }

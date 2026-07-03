@@ -31,6 +31,14 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        _pc = PlayerController.Instance;
+        _input = _pc.GetComponent<PlayerInput>();
+        _playerState = _pc.stats;
+        BindInputs();
+    }
+
     public void SetUIMode(GameState state)
     {
         //switch (state)
@@ -150,7 +158,7 @@ public class UIManager : MonoBehaviour
         _input.actions["Player/Inventory"].performed += OnInventoryPerformed;
         _input.actions["UI/Inventory"].performed += OnInventoryPerformed;
         _input.actions["Cancel"].performed += OnCancelPerformed;
-        _input.actions["Pause"].performed += OnPausePerformed;
+        //_input.actions["Pause"].performed += OnPausePerformed;
     }
 
     private void UnbindInputs()
@@ -160,7 +168,7 @@ public class UIManager : MonoBehaviour
         _input.actions["Player/Inventory"].performed -= OnInventoryPerformed;
         _input.actions["UI/Inventory"].performed -= OnInventoryPerformed;
         _input.actions["Cancel"].performed -= OnCancelPerformed;
-        _input.actions["Pause"].performed -= OnPausePerformed;
+        //_input.actions["Pause"].performed -= OnPausePerformed;
     }
 
     private void OnPausePerformed(InputAction.CallbackContext ctx)
