@@ -1,37 +1,86 @@
+using JetBrains.Annotations;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+
+[Serializable]
+public class ElementStats
+{
+    public ElementType type;
+    public int lvl;
+    public float exp;
+    public float pot;
+
+    public ElementStats(ElementType type, int lvl, float pot)
+    {
+        this.type = type;
+        this.lvl = lvl;
+        exp = 0;
+        this.pot = pot;
+    }
+
+    public static int ExpReq(int lv)
+    {
+        return Mathf.RoundToInt(10f * Mathf.Pow(1.1f, lv));
+    }
+
+    public void GainExp(float value)
+    {
+        exp += value * pot/100f;
+        while (TryUpgrade()) ;
+    }
+
+    public bool TryUpgrade()
+    {
+        if(exp > ExpReq(lvl))
+        {
+            exp -= ExpReq(lvl);
+            lvl++;
+            pot *= 0.8f;
+            return true;
+        }
+        return false;
+    }
+}
 
 [Serializable]
 public class PlayerStats
 {
-    //物品栏
-    //public int currentSelectedIndex = 0;
-    //public InventoryItem currentSelectedItem;
-    //public Action<int, InventoryItem> OnSelectedChanged;
+    public int currentSelectedIndex = 0;
+    public InventoryItem currentSelectedItem;
+    public Action<int, InventoryItem> OnSelectedChanged;
 
     public void ClearAllSubscribers()
     {
-        //OnSelectedChanged = null;
-        //OnHpChanged = null;
-        //OnManaChanged = null;
+        OnSelectedChanged = null;
+        OnHpChanged = null;
+        OnManaChanged = null;
+        OnStaminaChanged = null;
     }
 
-    public void ResetStatus(bool heal)
+    public void ResetStatus(bool heal = false)
     {
-        //if (heal)
-        //    hp = maxHp;
-        //mana = 0f;
-        //overloaded = false;
-        //currentSelectedIndex = 0;
-        //currentSelectedItem = null;
-        //_coolingTimer = 0f;
+        if (heal)
+        {
+            hp = maxHp;
+            mana = maxMana;
+            stamina = maxStamina;
+        }
+
+        _hpRecTimer = 0f;
+        _manaRecTimer = 0f;
+        _stRecTimer = 0f;
+
+        currentSelectedIndex = 0;
+        currentSelectedItem = null;
     }
 
     public void UpdateSelection(int index,InventoryItem newItem)
     {
-        //currentSelectedIndex = index;
-        //currentSelectedItem = newItem;
-        //OnSelectedChanged?.Invoke(currentSelectedIndex, newItem);
+        currentSelectedIndex = index;
+        currentSelectedItem = newItem;
+        OnSelectedChanged?.Invoke(currentSelectedIndex, newItem);
     }
 
     //角色属性
@@ -54,6 +103,30 @@ public class PlayerStats
     private float _hpRecTimer;
     private float _manaRecTimer;
     private float _stRecTimer;
+
+    public Dictionary<ElementType, ElementStats> elementStats = new Dictionary<ElementType, ElementStats>();
+
+    public PlayerStats()
+    {
+        elementStats.Add(ElementType.Wind, new ElementStats(ElementType.Wind, 1, 100f));
+        elementStats.Add(ElementType.Water, new ElementStats(ElementType.Water, 1, 100f));
+        elementStats.Add(ElementType.Fire, new ElementStats(ElementType.Fire, 1, 100f));
+        elementStats.Add(ElementType.Grass, new ElementStats(ElementType.Grass, 1, 100f));
+        elementStats.Add(ElementType.Dark, new ElementStats(ElementType.Dark, 0, 0f));
+    }
+
+    public List<ElementStats> GetSortedElementStats()
+    {
+        if (elementStats == null || elementStats.Count == 0)
+        {
+            return new List<ElementStats>();
+        }
+
+        return elementStats.Values                     
+            .OrderByDescending(element => element.lvl) 
+            .ThenByDescending(element => element.exp)  
+            .ToList();                                 
+    }
 
     public void RecoverHp(float value)
     {

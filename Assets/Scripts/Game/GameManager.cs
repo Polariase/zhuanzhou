@@ -4,8 +4,7 @@ using UnityEngine;
 public enum GameState
 {
     Entry,
-    Shelter,
-    Exploration
+    Survival
 }
 
 public class GameManager : MonoBehaviour
@@ -13,28 +12,13 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public GameState currentGameState = GameState.Entry;
-    [SerializeField] private PlayerStats globalPlayerStateData;
+    [SerializeField] private PlayerStats globalStats;
     [SerializeField] private GameObject playerPrefab;
-
-    private InventoryData _globalStorageData;
-    public InventoryData GlobalStorageData => _globalStorageData;
-    private int _defaultStorageCapacity = 60;
-
-    public int globalDataCount = 0;
-    public bool isAnalysisComplete = false;
-    public bool reward0Claimed = false;
-    public bool reward200Claimed = false;
-    public bool reward500Claimed = false;
-    public bool reward1000Claimed = false;
 
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(this); return; }
         Instance = this;
-        if (_globalStorageData == null)
-        {
-            _globalStorageData = new InventoryData(_defaultStorageCapacity);
-        }
     }
 
     private void Start()
@@ -70,29 +54,21 @@ public class GameManager : MonoBehaviour
             currentGameState = GameState.Entry;
             UIManager.Instance.SetUIMode(GameState.Entry);
         }
-        else if (sceneName == "ShelterScene")
+        else if(sceneName == "SurvivalScene")
         {
-            currentGameState = GameState.Shelter;
-            globalPlayerStateData.ClearAllSubscribers();
-            globalPlayerStateData.ResetStatus(true);
+            currentGameState = GameState.Survival;
+            globalStats.ClearAllSubscribers();
+            globalStats.ResetStatus(true);
             SpawnPlayer();
-            UIManager.Instance.SetUIMode(GameState.Shelter);
-        }
-        else if(sceneName == "ExplorationScene")
-        {
-            currentGameState = GameState.Exploration;
-            globalPlayerStateData.ClearAllSubscribers();
-            globalPlayerStateData.ResetStatus(true);
-            SpawnPlayer();
-            UIManager.Instance.SetUIMode(GameState.Exploration);
+            UIManager.Instance.SetUIMode(GameState.Survival);
         }
         else if (sceneName == "TestScene")
         {
-            currentGameState = GameState.Exploration;
-            globalPlayerStateData.ClearAllSubscribers();
-            globalPlayerStateData.ResetStatus(true);
+            currentGameState = GameState.Survival;
+            globalStats.ClearAllSubscribers();
+            globalStats.ResetStatus(true);
             SpawnPlayer();
-            UIManager.Instance.SetUIMode(GameState.Exploration);
+            UIManager.Instance.SetUIMode(GameState.Survival);
         }
     }
 
@@ -107,7 +83,7 @@ public class GameManager : MonoBehaviour
         PlayerController newPlayer = playerGO.GetComponent<PlayerController>();
         if (GameObject.FindWithTag("TopdownCam")?.GetComponent<CinemachineVirtualCamera>() is CinemachineVirtualCamera topDownCam)
         {
-            //newPlayer.Initialize(globalPlayerStateData, topDownCam);
+            //newPlayer.Initialize(globalStats, topDownCam);
         }
         UIManager.Instance.Initialize(newPlayer);
     }

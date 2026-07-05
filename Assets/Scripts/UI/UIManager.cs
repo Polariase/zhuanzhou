@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
     public HUDController hud;
 
     private readonly Stack<BasePanel> _panelStack = new();
-    private PlayerStats _playerState;
+    private PlayerStats stats;
     private PlayerInput _input;
     private PlayerController _pc;
 
@@ -35,35 +35,33 @@ public class UIManager : MonoBehaviour
     {
         _pc = PlayerController.Instance;
         _input = _pc.GetComponent<PlayerInput>();
-        _playerState = _pc.stats;
+        stats = _pc.stats;
         BindInputs();
     }
 
     public void SetUIMode(GameState state)
     {
-        //switch (state)
-        //{
-        //    case GameState.Entry:
-        //        hud.gameObject.SetActive(false);
-        //        inventoryPanel.gameObject.SetActive(false);
-        //        ApplyCursorState(true, CursorLockMode.None, false);
-        //        break;
-
-        //    case GameState.Shelter:
-        //    case GameState.Exploration:
-        //        hud.gameObject.SetActive(true);
-        //        if (_pc != null)
-        //        {
-        //            UpdateCursorState(_pc.isArmed);
-        //        }
-        //        else
-        //        {
-        //            ApplyCursorState(true, CursorLockMode.None, false);
-        //        }
-        //        inventoryPanel.gameObject.SetActive(true);
-        //        break;
-        //}
-        //Back();
+        switch (state)
+        {
+            case GameState.Entry:
+                hud.gameObject.SetActive(false);
+                inventoryPanel.gameObject.SetActive(false);
+                ApplyCursorState(true, CursorLockMode.None, false);
+                break;
+            case GameState.Survival:
+                hud.gameObject.SetActive(true);
+                //if (_pc != null)
+                //{
+                //    UpdateCursorState(_pc.isArmed);
+                //}
+                //else
+                //{
+                //    ApplyCursorState(true, CursorLockMode.None, false);
+                //}
+                inventoryPanel.gameObject.SetActive(true);
+                break;
+        }
+        Back();
     }
 
     public void ShowDeathPanel()
@@ -130,7 +128,7 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-        if (_playerState != null && armed)
+        if (stats != null && armed)
         {
             ApplyCursorState(false, CursorLockMode.Confined, true);
         }
@@ -202,7 +200,7 @@ public class UIManager : MonoBehaviour
         //_pc = player;
         //if (_pc == null) return;
         //_input = _pc.GetComponent<PlayerInput>();
-        //_playerState = _pc.stateData;
+        //stats = _pc.stateData;
         //_pc.OnArmed += UpdateCursorState;
         //BindInputs();
 

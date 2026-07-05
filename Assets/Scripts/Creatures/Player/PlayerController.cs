@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
     public bool CanJump => isGrounded && stats.stamina >= jumpCost && !isChanting && CanAct;
     public bool CanChant => isGrounded && !isChanting && CanAct;
     public bool CanMove => !isChanting && CanAct;
-    public bool CanRun => stats.stamina > 0f;
+    public bool CanRun => stats.stamina > 0f && isGrounded;
 
     public bool CanRecHp => true;
     public bool CanRecMana=> true;
@@ -233,32 +233,37 @@ public class PlayerController : MonoBehaviour
             _velocity.y = -2f;
         }
 
-        if (CanRun)
-        {
-            isRunning = _run.IsPressed();
-            if (isRunning)
-                stats.Rest(-Time.deltaTime * runCost);
-        }
-        else
-            isRunning = false;
-
-        float currentSpeed = moveSpeed * SpeedScale();
+        float currentSpeed = 0f;
         Vector3 moveTargetDir = Vector3.zero;
 
-        if (isMoving && _mainCamera != null)
+        if (CanMove)
         {
-            Vector3 camForward = _mainCamera.transform.forward;
-            Vector3 camRight = _mainCamera.transform.right;
-            camForward.y = 0f;
-            camRight.y = 0f;
-            camForward.Normalize();
-            camRight.Normalize();
+            if (CanRun)
+            {
+                isRunning = _run.IsPressed();
+                if (isRunning)
+                    stats.Rest(-Time.deltaTime * runCost);
+            }
+            else
+                isRunning = false;
 
-            moveTargetDir = camForward * _inputDir.y + camRight * _inputDir.x;
-            moveTargetDir.Normalize();
+            currentSpeed = moveSpeed * SpeedScale();
 
-            Quaternion targetRotation = Quaternion.LookRotation(moveTargetDir);
-            modelRoot.rotation = Quaternion.Slerp(modelRoot.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+            if (isMoving && _mainCamera != null)
+            {
+                Vector3 camForward = _mainCamera.transform.forward;
+                Vector3 camRight = _mainCamera.transform.right;
+                camForward.y = 0f;
+                camRight.y = 0f;
+                camForward.Normalize();
+                camRight.Normalize();
+
+                moveTargetDir = camForward * _inputDir.y + camRight * _inputDir.x;
+                moveTargetDir.Normalize();
+
+                Quaternion targetRotation = Quaternion.LookRotation(moveTargetDir);
+                modelRoot.rotation = Quaternion.Slerp(modelRoot.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+            }
         }
 
         _cc.Move(moveTargetDir * (currentSpeed * Time.deltaTime));
@@ -272,7 +277,6 @@ public class PlayerController : MonoBehaviour
             if (_anim != null)
             {
                 _anim.SetTrigger("Jump");
-                Debug.Log("jump");
             }
         }
 
