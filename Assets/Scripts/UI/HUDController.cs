@@ -19,7 +19,7 @@ public class HUDController : MonoBehaviour
     public HotbarController hotbar;
 
     private float bufferDelay = 0.5f;
-    private float bufferShrinkSpeed = 1.0f;
+    private float bufferShrinkSpeed = 0.6f;
 
     private float _hpBufferPct;
     private float _hpBufferTimer;
@@ -34,11 +34,6 @@ public class HUDController : MonoBehaviour
     private bool _isStaminaBuffering;
 
     private PlayerStats _stats;
-
-    private void Start()
-    {
-        Initialize(PlayerController.Instance);
-    }
 
     private void Update()
     {
@@ -91,6 +86,7 @@ public class HUDController : MonoBehaviour
     {
         if (!_isStaminaBuffering) return;
 
+
         if (_staminaBufferTimer > 0)
         {
             _staminaBufferTimer -= Time.deltaTime;
@@ -111,14 +107,16 @@ public class HUDController : MonoBehaviour
     {
         Cleanup();
         _stats = pc.stats;
-        //if (_stats == null) return;
         _stats.OnHpChanged += OnHpChanged;
         _stats.OnManaChanged += OnManaChanged;
         _stats.OnStaminaChanged += OnStaminaChanged;
         OnHpChanged(_stats.hp, _stats.maxHp);
         OnManaChanged(_stats.mana, _stats.maxMana);
         OnStaminaChanged(_stats.stamina, _stats.maxStamina);
-        //hotbar.Initialize(pc);
+        hpBufferFill.fillAmount = _hpBufferPct = hpFill.fillAmount;
+        manaBufferFill.fillAmount = _manaBufferPct = manaFill.fillAmount;
+        staminaBufferFill.fillAmount = _staminaBufferPct = staminaFill.fillAmount;
+        //hotbar.Initialize(_pc);
     }
 
     public void Cleanup()
@@ -160,7 +158,7 @@ public class HUDController : MonoBehaviour
 
         hpFill.fillAmount = pct;
 
-        hpText.SetText("{0}/{1}", Mathf.RoundToInt(curValue),Mathf.RoundToInt(maxValue));
+        hpText.SetText("{0}", Mathf.RoundToInt(curValue));
     }
 
     private void OnManaChanged(float curValue, float maxValue)
@@ -186,7 +184,7 @@ public class HUDController : MonoBehaviour
 
         manaFill.fillAmount = pct;
 
-        manaText.SetText("{0}/{1}", Mathf.RoundToInt(curValue), Mathf.RoundToInt(maxValue));
+        manaText.SetText("{0}", Mathf.RoundToInt(curValue));
     }
 
     private void OnStaminaChanged(float curValue, float maxValue)
@@ -194,7 +192,6 @@ public class HUDController : MonoBehaviour
         if (maxValue <= 0) return;
 
         float pct = Mathf.Clamp01(curValue / maxValue);
-        staminaFill.fillAmount = pct;
 
         if (pct < staminaFill.fillAmount)
         {
@@ -211,6 +208,8 @@ public class HUDController : MonoBehaviour
             }
         }
 
-        staminaText.SetText("{0}/{1}", Mathf.RoundToInt(curValue), Mathf.RoundToInt(maxValue));
+        staminaFill.fillAmount = pct;
+
+        staminaText.SetText("{0}", Mathf.RoundToInt(curValue));
     }
 }

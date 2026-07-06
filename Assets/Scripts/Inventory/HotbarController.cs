@@ -15,14 +15,6 @@ public class HotbarController : BaseInventoryController
         CreateInventoryData();
     }
 
-    //test
-    private void Start()
-    {
-        stateData = PlayerController.Instance.stats;
-        Initialize(PlayerController.Instance);
-    }
-    //test
-
     public void CreateInventoryData()
     {
         if (inventoryData != null) return;

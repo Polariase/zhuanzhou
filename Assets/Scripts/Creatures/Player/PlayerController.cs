@@ -1,7 +1,7 @@
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
-
+using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour
 {
@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
     private float _targetPitch;
     private float _targetYaw;
 
-    private Camera _mainCamera;
+    private Camera _cam;
 
     [Header("Movement Settings")]
     public float moveSpeed = 3f;
@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
     public bool CanJump => isGrounded && stats.stamina >= jumpCost && !isChanting && CanAct;
     public bool CanChant => isGrounded && !isChanting && CanAct;
     public bool CanMove => !isChanting && CanAct;
-    public bool CanRun => stats.stamina > 0f;
+    public bool CanRun => stats.stamina > 0f && isGrounded;
 
     public bool CanRecHp => true;
     public bool CanRecMana=> true;
@@ -89,7 +89,6 @@ public class PlayerController : MonoBehaviour
             scale *= runSpeedScale;
         else if (!isGrounded)
             scale *= airSpeedScale;
-
 
         return scale;
     }
@@ -119,21 +118,7 @@ public class PlayerController : MonoBehaviour
         _backspace = _input.actions["Backspace"];
 
         modelRoot = transform.Find("ModelRoot");
-
-        stats = new PlayerStats();
     }
-
-
-
-    void Start()
-    {
-        if (Camera.main != null)
-        {
-            _mainCamera = Camera.main;
-        }
-    }
-
-
 
     void Update()
     {
@@ -166,18 +151,62 @@ public class PlayerController : MonoBehaviour
         HandleRotation();
     }
 
-    private void OnEnable()
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+        Cleanup();
+    }
+
+    private void BindActions()
     {
         _jump.performed += OnJumpAction;
         _chant.performed += OnChantAction;
         _cancel.performed += OnAbortAction;
     }
 
-    private void OnDisable()
+    private void UnbindActions()
     {
         _jump.performed -= OnJumpAction;
         _chant.performed -= OnChantAction;
         _cancel.performed -= OnAbortAction;
+    }
+
+    public void Initialize(PlayerStats st, CinemachineVirtualCamera cam)
+    {
+        Cleanup();
+        stats = st;
+
+        if (cam != null)
+        {
+            cam.Follow = camTarget.transform;
+        }
+
+        _cam = Camera.main;
+
+        if (_input != null)
+        {
+            foreach (var item in _input.actions.actionMaps)
+            {
+                item.Disable();
+            }
+            _input.SwitchCurrentActionMap("Player");
+            _input.currentActionMap.Enable();
+
+            BindActions();
+        }
+    }
+
+    public void Cleanup()
+    {
+        if (_input != null)
+        {
+            UnbindActions();
+            _input.currentActionMap?.Disable();
+        }
+        _cam = null;
     }
 
     private void Recovery()
@@ -233,32 +262,37 @@ public class PlayerController : MonoBehaviour
             _velocity.y = -2f;
         }
 
-        if (CanRun)
-        {
-            isRunning = _run.IsPressed();
-            if (isRunning)
-                stats.Rest(-Time.deltaTime * runCost);
-        }
-        else
-            isRunning = false;
-
-        float currentSpeed = moveSpeed * SpeedScale();
+        float currentSpeed = 0f;
         Vector3 moveTargetDir = Vector3.zero;
 
-        if (isMoving && _mainCamera != null)
+        if (CanMove)
         {
-            Vector3 camForward = _mainCamera.transform.forward;
-            Vector3 camRight = _mainCamera.transform.right;
-            camForward.y = 0f;
-            camRight.y = 0f;
-            camForward.Normalize();
-            camRight.Normalize();
+            if (CanRun)
+            {
+                isRunning = _run.IsPressed();
+                if (isRunning)
+                    stats.Rest(-Time.deltaTime * runCost);
+            }
+            else
+                isRunning = false;
 
-            moveTargetDir = camForward * _inputDir.y + camRight * _inputDir.x;
-            moveTargetDir.Normalize();
+            currentSpeed = moveSpeed * SpeedScale();
 
-            Quaternion targetRotation = Quaternion.LookRotation(moveTargetDir);
-            modelRoot.rotation = Quaternion.Slerp(modelRoot.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+            if (isMoving && _cam != null)
+            {
+                Vector3 camForward = _cam.transform.forward;
+                Vector3 camRight = _cam.transform.right;
+                camForward.y = 0f;
+                camRight.y = 0f;
+                camForward.Normalize();
+                camRight.Normalize();
+
+                moveTargetDir = camForward * _inputDir.y + camRight * _inputDir.x;
+                moveTargetDir.Normalize();
+
+                Quaternion targetRotation = Quaternion.LookRotation(moveTargetDir);
+                modelRoot.rotation = Quaternion.Slerp(modelRoot.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+            }
         }
 
         _cc.Move(moveTargetDir * (currentSpeed * Time.deltaTime));
@@ -272,7 +306,6 @@ public class PlayerController : MonoBehaviour
             if (_anim != null)
             {
                 _anim.SetTrigger("Jump");
-                Debug.Log("jump");
             }
         }
 
