@@ -23,18 +23,18 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        //GameSceneManager.Instance.OnSceneLoadCompleted += HandleSceneChanged;
+        GameSceneManager.Instance.OnSceneLoadCompleted += HandleSceneChanged;
     }
 
     private void OnDestroy()
     {
-        //if (GameSceneManager.Instance != null)
-        //    GameSceneManager.Instance.OnSceneLoadCompleted -= HandleSceneChanged;
+        if (GameSceneManager.Instance != null)
+            GameSceneManager.Instance.OnSceneLoadCompleted -= HandleSceneChanged;
     }
 
     public void StartGame()
     {
-        //GameSceneManager.Instance.LoadScene("ShelterScene");
+        GameSceneManager.Instance.LoadScene("SurvivalScene");
     }
 
     public void QuitGame()
@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
         {
             currentGameState = GameState.Survival;
             globalStats.ClearAllSubscribers();
-            globalStats.ResetStatus(true);
+            globalStats.ResetStatus();
             SpawnPlayer();
             UIManager.Instance.SetUIMode(GameState.Survival);
         }
@@ -81,9 +81,9 @@ public class GameManager : MonoBehaviour
         Quaternion spawnRot = spawnPoint != null ? spawnPoint.transform.rotation : Quaternion.identity;
         GameObject playerGO = Instantiate(playerPrefab, spawnPos, spawnRot);
         PlayerController newPlayer = playerGO.GetComponent<PlayerController>();
-        if (GameObject.FindWithTag("TopdownCam")?.GetComponent<CinemachineVirtualCamera>() is CinemachineVirtualCamera topDownCam)
+        if (GameObject.FindWithTag("TPCam")?.GetComponent<CinemachineVirtualCamera>() is CinemachineVirtualCamera TPCam)
         {
-            //newPlayer.Initialize(globalStats, topDownCam);
+            newPlayer.Initialize(globalStats, TPCam);
         }
         UIManager.Instance.Initialize(newPlayer);
     }

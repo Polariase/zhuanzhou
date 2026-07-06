@@ -273,21 +273,6 @@ MonoBehaviour:
     hpRec: 2
     manaRec: 20
     recCooldown: 1
-    fireLv: 1
-    waterLv: 1
-    grassLv: 1
-    windLv: 1
-    darkLv: 0
-    firePot: 1
-    waterPot: 1
-    grassPot: 1
-    windPot: 1
-    darkPot: 0
-    fireExp: 0
-    waterExp: 0
-    grassExp: 0
-    windExp: 0
-    darkExp: 0
   modelRoot: {fileID: 7038031413871795085}
   isGrounded: 0
   isMoving: 0
@@ -1681,7 +1666,7 @@ Transform:
   m_GameObject: {fileID: 7556930031171454367}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -57.032837, y: -4.682001, z: -0.6469116}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

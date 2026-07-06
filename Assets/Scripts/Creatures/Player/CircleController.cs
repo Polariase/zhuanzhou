@@ -88,11 +88,11 @@ public class CircleController : MonoBehaviour
             ChangeParticleColors(pFast, pSlow);
             decalObject.SetActive(true);
             circlePs.Play();
+            Debug.Log("Played");
         }
         else
         {
             var emission = circlePs.emission;
-            emission.enabled = true;
         }
 
         currentTween = DOTween.To(() => currentProgress, x => currentProgress = x, targetValue, duration)

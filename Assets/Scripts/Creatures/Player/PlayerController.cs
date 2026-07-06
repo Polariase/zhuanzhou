@@ -1,7 +1,7 @@
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
-
+using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour
 {
@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
     private float _targetPitch;
     private float _targetYaw;
 
-    private Camera _mainCamera;
+    private Camera _cam;
 
     [Header("Movement Settings")]
     public float moveSpeed = 3f;
@@ -90,7 +90,6 @@ public class PlayerController : MonoBehaviour
         else if (!isGrounded)
             scale *= airSpeedScale;
 
-
         return scale;
     }
 
@@ -119,21 +118,7 @@ public class PlayerController : MonoBehaviour
         _backspace = _input.actions["Backspace"];
 
         modelRoot = transform.Find("ModelRoot");
-
-        stats = new PlayerStats();
     }
-
-
-
-    void Start()
-    {
-        if (Camera.main != null)
-        {
-            _mainCamera = Camera.main;
-        }
-    }
-
-
 
     void Update()
     {
@@ -166,18 +151,62 @@ public class PlayerController : MonoBehaviour
         HandleRotation();
     }
 
-    private void OnEnable()
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+        Cleanup();
+    }
+
+    private void BindActions()
     {
         _jump.performed += OnJumpAction;
         _chant.performed += OnChantAction;
         _cancel.performed += OnAbortAction;
     }
 
-    private void OnDisable()
+    private void UnbindActions()
     {
         _jump.performed -= OnJumpAction;
         _chant.performed -= OnChantAction;
         _cancel.performed -= OnAbortAction;
+    }
+
+    public void Initialize(PlayerStats st, CinemachineVirtualCamera cam)
+    {
+        Cleanup();
+        stats = st;
+
+        if (cam != null)
+        {
+            cam.Follow = camTarget.transform;
+        }
+
+        _cam = Camera.main;
+
+        if (_input != null)
+        {
+            foreach (var item in _input.actions.actionMaps)
+            {
+                item.Disable();
+            }
+            _input.SwitchCurrentActionMap("Player");
+            _input.currentActionMap.Enable();
+
+            BindActions();
+        }
+    }
+
+    public void Cleanup()
+    {
+        if (_input != null)
+        {
+            UnbindActions();
+            _input.currentActionMap?.Disable();
+        }
+        _cam = null;
     }
 
     private void Recovery()
@@ -249,10 +278,10 @@ public class PlayerController : MonoBehaviour
 
             currentSpeed = moveSpeed * SpeedScale();
 
-            if (isMoving && _mainCamera != null)
+            if (isMoving && _cam != null)
             {
-                Vector3 camForward = _mainCamera.transform.forward;
-                Vector3 camRight = _mainCamera.transform.right;
+                Vector3 camForward = _cam.transform.forward;
+                Vector3 camRight = _cam.transform.right;
                 camForward.y = 0f;
                 camRight.y = 0f;
                 camForward.Normalize();
