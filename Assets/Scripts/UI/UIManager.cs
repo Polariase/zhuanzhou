@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
     public HUDController hud;
 
     private readonly Stack<BasePanel> _panelStack = new();
-    private PlayerStats _playerState;
+    private PlayerStats stats;
     private PlayerInput _input;
     private PlayerController _pc;
 
@@ -31,39 +31,22 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        _pc = PlayerController.Instance;
-        _input = _pc.GetComponent<PlayerInput>();
-        _playerState = _pc.stats;
-        BindInputs();
-    }
-
     public void SetUIMode(GameState state)
     {
-        //switch (state)
-        //{
-        //    case GameState.Entry:
-        //        hud.gameObject.SetActive(false);
-        //        inventoryPanel.gameObject.SetActive(false);
-        //        ApplyCursorState(true, CursorLockMode.None, false);
-        //        break;
-
-        //    case GameState.Shelter:
-        //    case GameState.Exploration:
-        //        hud.gameObject.SetActive(true);
-        //        if (_pc != null)
-        //        {
-        //            UpdateCursorState(_pc.isArmed);
-        //        }
-        //        else
-        //        {
-        //            ApplyCursorState(true, CursorLockMode.None, false);
-        //        }
-        //        inventoryPanel.gameObject.SetActive(true);
-        //        break;
-        //}
-        //Back();
+        switch (state)
+        {
+            case GameState.Entry:
+                hud.gameObject.SetActive(false);
+                inventoryPanel.gameObject.SetActive(false);
+                ApplyCursorState(true, CursorLockMode.None, false);
+                break;
+            case GameState.Survival:
+                hud.gameObject.SetActive(true);
+                inventoryPanel.gameObject.SetActive(true);
+                UpdateUIState();
+                break;
+        }
+        Back();
     }
 
     public void ShowDeathPanel()
@@ -110,34 +93,15 @@ public class UIManager : MonoBehaviour
 
     public void UpdateUIState()
     {
-        //if (_panelStack.Count > 0)
-        //{
-        //    _input.SwitchCurrentActionMap("UI");
-        //}
-        //else
-        //{
-        //    _input.SwitchCurrentActionMap("Player");
-        //}
-
-        //UpdateCursorState(_pc.isArmed);
-    }
-
-    private void UpdateCursorState(bool armed)
-    {
         if (_panelStack.Count > 0)
         {
+            _input.SwitchCurrentActionMap("UI");
             ApplyCursorState(true, CursorLockMode.None, false);
-            return;
         }
-
-        if (_playerState != null && armed)
-        {
-            ApplyCursorState(false, CursorLockMode.Confined, true);
-        }
-
         else
         {
-            ApplyCursorState(true, CursorLockMode.None, false);
+            _input.SwitchCurrentActionMap("Player");
+            ApplyCursorState(false, CursorLockMode.Locked, true);
         }
     }
 
@@ -157,8 +121,8 @@ public class UIManager : MonoBehaviour
 
         _input.actions["Player/Inventory"].performed += OnInventoryPerformed;
         _input.actions["UI/Inventory"].performed += OnInventoryPerformed;
-        _input.actions["Cancel"].performed += OnCancelPerformed;
-        //_input.actions["Pause"].performed += OnPausePerformed;
+        _input.actions["Quit"].performed += OnCancelPerformed;
+        _input.actions["Pause"].performed += OnPausePerformed;
     }
 
     private void UnbindInputs()
@@ -167,8 +131,8 @@ public class UIManager : MonoBehaviour
 
         _input.actions["Player/Inventory"].performed -= OnInventoryPerformed;
         _input.actions["UI/Inventory"].performed -= OnInventoryPerformed;
-        _input.actions["Cancel"].performed -= OnCancelPerformed;
-        //_input.actions["Pause"].performed -= OnPausePerformed;
+        _input.actions["Quit"].performed -= OnCancelPerformed;
+        _input.actions["Pause"].performed -= OnPausePerformed;
     }
 
     private void OnPausePerformed(InputAction.CallbackContext ctx)
@@ -198,26 +162,20 @@ public class UIManager : MonoBehaviour
 
     public void Initialize(PlayerController player)
     {
-        //Cleanup();
-        //_pc = player;
-        //if (_pc == null) return;
-        //_input = _pc.GetComponent<PlayerInput>();
-        //_playerState = _pc.stateData;
-        //_pc.OnArmed += UpdateCursorState;
-        //BindInputs();
+        Cleanup();
+        _pc = player;
+        if (_pc == null) return;
+        _input = _pc.GetComponent<PlayerInput>();
+        stats = _pc.stats;
+        BindInputs();
 
-        //hud.Initialize(_pc);
-        //crosshair.Initialize(_pc);
-        //UpdateCursorState(_pc.isArmed);
+        hud.Initialize(_pc);
+        crosshair.Initialize(_pc);
     }
 
     private void Cleanup()
     {
-        //if (_pc != null)
-        //{
-        //    _pc.OnArmed -= UpdateCursorState;
-        //}
-        //UnbindInputs();
+        UnbindInputs();
     }
 
     private void OnDestroy()

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewItem", menuName = "SOs/ItemData")]
 public class ItemData : ScriptableObject
 {
     [Header("»ù´¡ÐÅÏ¢")]
