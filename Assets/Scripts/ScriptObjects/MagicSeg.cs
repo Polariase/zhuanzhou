@@ -6,4 +6,5 @@ public class MagicSeg : ScriptableObject
 {
     public string keyword;
     public string segName;
+    public string description;
 }

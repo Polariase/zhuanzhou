@@ -244,9 +244,9 @@ CharacterController:
   m_Radius: 0.5
   m_SlopeLimit: 60
   m_StepOffset: 0.3
-  m_SkinWidth: 0.08
+  m_SkinWidth: 0.05
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.75, z: 0}
+  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!114 &1161173514648402126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,8 +263,6 @@ MonoBehaviour:
     currentSelectedIndex: 0
     currentSelectedItem:
       count: 0
-      data: {fileID: 0}
-      meatState: 0
     maxHp: 200
     hp: 200
     maxMana: 100

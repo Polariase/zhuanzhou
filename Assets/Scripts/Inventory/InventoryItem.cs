@@ -15,50 +15,37 @@ public enum MeatState
 public class InventoryItem
 {
     public int count;
-    public ItemData data;
-    public MeatState meatState = MeatState.Raw;
+    public ItemRuntimeData runtimeData;
 
-    public InventoryItem(ItemData itemData, int amount)
+    public InventoryItem(ItemData itemData, int amount, MeatState defaultMeatState = MeatState.Raw)
     {
-        data = itemData;
         count = amount;
+
+        if (itemData is FoodData foodData)
+        {
+            runtimeData = new FoodItemRuntime(foodData, defaultMeatState);
+        }
+        else
+        {
+            runtimeData = new NormalItemRuntime(itemData);
+        }
+    }
+
+    public InventoryItem(ItemRuntimeData customRuntimeData, int amount)
+    {
+        count = amount;
+        runtimeData = customRuntimeData;
     }
 
     public void AddCount(int amount) => count += amount;
 
-    public string GetCurrentIconAddress()
-    {
-        if (data is MeatData meat)
-        {
-            return meatState switch
-            {
-                MeatState.Cooked => meat.iconAddressCooked,
-                MeatState.Burnt => meat.iconAddressBurnt,
-                _ => meat.iconAddress
-            };
-        }
-
-        return data.iconAddress;
-    }
-
-    public string GetCurrentPrefabAddress()
-    {
-        if (data is MeatData meat)
-        {
-            return meatState switch
-            {
-                MeatState.Cooked => meat.prefabAddressCooked,
-                MeatState.Burnt => meat.prefabAddressBurnt,
-                _ => meat.prefabAddress
-            };
-        }
-        return data.prefabAddress;
-    }
+    public string GetCurrentIconAddress() => runtimeData.IconAddress;
+    public string GetCurrentPrefabAddress() => runtimeData.PrefabAddress;
 
     public InventoryItem Clone(int newCount)
     {
-        InventoryItem newItem = new(data, newCount);
-        newItem.meatState = meatState;
+        InventoryItem newItem = new(null, newCount);
+        newItem.runtimeData = runtimeData.Clone();
         return newItem;
     }
 
@@ -76,8 +63,16 @@ public class InventoryItem
         if (ReferenceEquals(this, obj)) return true;
         if (obj is InventoryItem other)
         {
-            if (data == other.data && meatState == other.meatState)
-                return true;
+            if (runtimeData == null || other.runtimeData == null) return false;
+
+            if (runtimeData.ItemID != other.runtimeData.ItemID) return false;
+
+            if (runtimeData is FoodItemRuntime thisFood && other.runtimeData is FoodItemRuntime otherFood)
+            {
+                return thisFood.meatState == otherFood.meatState;
+            }
+
+            return true;
         }
         return false;
     }
@@ -95,6 +90,10 @@ public class InventoryItem
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(data.itemID);
+        if (runtimeData is FoodItemRuntime food)
+        {
+            return HashCode.Combine(runtimeData.ItemID, food.meatState);
+        }
+        return HashCode.Combine(runtimeData.ItemID);
     }
 }

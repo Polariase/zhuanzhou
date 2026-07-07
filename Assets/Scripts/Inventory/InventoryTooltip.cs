@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using JetBrains.Annotations;
+using UnityEditor.UIElements;
 
 public class InventoryTooltip : MonoBehaviour
 {
@@ -19,23 +20,29 @@ public class InventoryTooltip : MonoBehaviour
 
     public void Display(InventoryItem item, Vector2 position)
     {
-        ItemData config = item.data;
-        titleText.text = config.itemName;
-        descriptionText.text = config.description;
-        string baseInfo = $"\n物品类型：{config.itemType.ToDisplayName()}";
-        //if (config is WeaponData weapon)
-        //{
-        //    baseInfo += "\n\n" +
-        //                $"基础伤害: {weapon.damage}\n" +
-        //                $"射速: {weapon.fireRate}\n" +
-        //                $"弹速: {weapon.bulletSpeed}\n" +
-        //                $"射程: {weapon.distance}\n" +
-        //                $"负载量: {weapon.loadPerShot}\n" +
-        //                $"枪械散布: {weapon.baseSpread}\n" +
-        //                $"瞄准速度: {weapon.aimSpeed}\n" +
-        //                $"瞄准散布系数: {Mathf.RoundToInt(weapon.aimSpreadMult * 100f)}%";
-        //}
-        infoText.text = baseInfo;
+        titleText.text = item.runtimeData.ItemName;
+        descriptionText.text = item.runtimeData.Desc;
+        string extraInfo = $"物品类型：{item.runtimeData.Type.ToDisplayName()}";
+        if (item.runtimeData is FoodItemRuntime food)
+        {
+            extraInfo += "\n\n食物效能\n" +
+                         $"火元素潜能: {food.FirePot:F1}\n" +
+                         $"水元素潜能: {food.WaterPot:F1}\n" +
+                         $"草元素潜能: {food.GrassPot:F1}\n" +
+                         $"风元素潜能: {food.WindPot:F1}\n" +
+                         $"暗元素潜能: {food.DarkPot:F1}\n";
+        }
+        else if (item.runtimeData is MagicItemRuntime magic)
+        {
+            extraInfo += "\n\n法术属性\n" +
+                         $"威力: <color=#FF5555>{magic.Damage:F1}</color>\n" +
+                         $"魔耗: <color=#55FFFF>{magic.Cost:F1}</color>\n" +
+                         $"弹速: <color=#FFFF55>{magic.Speed:F1}</color>\n" +
+                         $"属性: {magic.Element.GetName()}";
+        }
+
+        infoText.text = extraInfo;
+
         gameObject.SetActive(true);
 
         UpdatePosition(position);

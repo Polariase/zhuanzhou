@@ -13,9 +13,9 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance { get; private set; }
 
-    public BaseInventoryController backpack;
-    public BaseInventoryController hotbar;
-    public BaseInventoryController container;
+    public BackpackController backpack;
+    public HotbarController hotbar;
+    public ContainerController container;
 
     [SerializeField] private InventoryTooltip _tooltip;
     [SerializeField] private RectTransform _dragVisualRect;

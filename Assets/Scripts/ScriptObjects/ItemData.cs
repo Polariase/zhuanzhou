@@ -24,7 +24,8 @@ public class ItemData : ScriptableObject
 public enum ItemType
 {
     Normal,
-    Food
+    Food,
+    Magic
 }
 
 
@@ -36,6 +37,7 @@ public static class ItemTypeExtensions
         {
             ItemType.Normal => "道具",
             ItemType.Food => "食物",
+            ItemType.Magic => "法术",
             _ => "Unknown"
         };
     }

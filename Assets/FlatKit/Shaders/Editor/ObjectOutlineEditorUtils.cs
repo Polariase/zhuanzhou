@@ -21,7 +21,7 @@ public static class ObjectOutlineEditorUtils {
             return;
         }
 
-        // Find existing feature on the renderer data.
+        // Find existing feature on the renderer runtimeData.
         var feature = rendererData.rendererFeatures
             .FirstOrDefault(f => f != null && f.GetType() == typeof(ObjectOutlineRendererFeature));
 

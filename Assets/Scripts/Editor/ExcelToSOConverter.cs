@@ -124,9 +124,9 @@ public class ExcelToSOConverter
                     {
                         meat.iconAddress = "ÉúÈâIcon";
                         meat.prefabAddress = "ÉúÈâ";
-                        meat.iconAddressCooked = "ÉúÈâIcon";
+                        meat.iconAddressCooked = "ÊìÈâIcon";
                         meat.prefabAddressCooked = "ÊìÈâ";
-                        meat.iconAddressBurnt = "ÉúÈâIcon";
+                        meat.iconAddressBurnt = "ºıÈâIcon";
                         meat.prefabAddressBurnt = "ºıÈâ";
                     }
                     else

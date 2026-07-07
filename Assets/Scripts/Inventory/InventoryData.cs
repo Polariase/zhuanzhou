@@ -52,10 +52,9 @@ public class InventoryData
         if (!targetData.Acceptable(itemA)) return false;
         if (itemB != null && !Acceptable(itemB)) return false;
 
-        if (itemB != null && itemA.data.itemID == itemB.data.itemID)
+        if (itemB != null && itemA.runtimeData.ItemID == itemB.runtimeData.ItemID)
         {
-            ItemData config = itemB.data;
-            int maxStack = config != null ? config.maxStack : 1;
+            int maxStack = itemB.runtimeData != null ? itemB.runtimeData.MaxStack : 1;
 
             if (maxStack > 1)
             {
@@ -96,11 +95,10 @@ public class InventoryData
 
     public InventoryItem AddItem(InventoryItem incomingItem)
     {
-        if (incomingItem == null || incomingItem.data.itemID <= 0) return null;
+        if (incomingItem == null || incomingItem.runtimeData.ItemID <= 0) return null;
         if (!Acceptable(incomingItem)) return incomingItem;
 
-        ItemData config = incomingItem.data;
-        int maxStack = config != null ? config.maxStack : 1;
+        int maxStack = incomingItem.runtimeData.MaxStack;
 
         // 如果可以堆叠，尝试堆叠
         if (maxStack > 1)
@@ -128,7 +126,7 @@ public class InventoryData
         // 尝试放入空格子
         for (int i = 0; i < _items.Count; i++)
         {
-            if (_items[i] == null || _items[i].data.itemID == 0)
+            if (_items[i] == null || _items[i].runtimeData.ItemID == 0)
             {
                 if (incomingItem.count > maxStack)
                 {

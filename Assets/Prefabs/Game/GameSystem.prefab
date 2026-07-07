@@ -2242,9 +2242,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b23c34ba7a69d164a8fd4bac0dba874a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotPrefab: {fileID: 7432211685561457218}
-  slotParent: {fileID: 7201244156170012188, guid: abeee88326942a4418a7cc2abc4a07e9,
+  slotPrefab: {fileID: 2247758936304586232, guid: abeee88326942a4418a7cc2abc4a07e9,
     type: 3}
+  slotParent: {fileID: 3318011523003061673}
   slots: []
 --- !u!1 &4490654371321660545
 GameObject:
@@ -2343,7 +2343,6 @@ MonoBehaviour:
     currentSelectedIndex: 0
     currentSelectedItem:
       count: 0
-      data: {fileID: 0}
     maxHp: 100
     hp: 100
     maxMana: 100

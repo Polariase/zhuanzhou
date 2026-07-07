@@ -18,13 +18,12 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void Refresh(InventoryItem item)
     {
-        if (item == null || item.data.itemID <= 0)
+        if (item == null || item.runtimeData.ItemID <= 0)
         {
             iconImage.enabled = false;
             countText.text = "";
             return;
         }
-        ItemData data = item.data;
         iconImage.sprite = DataManager.Instance.GetIcon(item.GetCurrentIconAddress());
         iconImage.enabled = true;
         countText.text = item.count > 1 ? item.count.ToString() : "";
