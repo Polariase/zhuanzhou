@@ -19214,6 +19214,43 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5334811375878091076, guid: e994481bf20653745a4e4fcd42d5e1f6,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: fcfcd7da3c44c554db6791d28dd79a59,
+        type: 2}
+    - target: {fileID: 5334811375878091076, guid: e994481bf20653745a4e4fcd42d5e1f6,
+        type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.68867916
+      objectReference: {fileID: 0}
+    - target: {fileID: 5334811375878091076, guid: e994481bf20653745a4e4fcd42d5e1f6,
+        type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.8526207
+      objectReference: {fileID: 0}
+    - target: {fileID: 5334811375878091076, guid: e994481bf20653745a4e4fcd42d5e1f6,
+        type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5334811375878091076, guid: e994481bf20653745a4e4fcd42d5e1f6,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -4152293307406879841, guid: fcfcd7da3c44c554db6791d28dd79a59,
+        type: 2}
+    - target: {fileID: 5334811375878091076, guid: e994481bf20653745a4e4fcd42d5e1f6,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4289780223
+      objectReference: {fileID: 0}
+    - target: {fileID: 5334811375878091076, guid: e994481bf20653745a4e4fcd42d5e1f6,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5366962462685566770, guid: e994481bf20653745a4e4fcd42d5e1f6,
         type: 3}
       propertyPath: m_IsActive
@@ -19316,10 +19353,21 @@ PrefabInstance:
       propertyPath: m_FillAmount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7408186595070989465, guid: e994481bf20653745a4e4fcd42d5e1f6,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a3dde08af68761846adf36e5d89e7823,
+        type: 3}
     - target: {fileID: 7439665646721116253, guid: e994481bf20653745a4e4fcd42d5e1f6,
         type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7816672342990026088, guid: e994481bf20653745a4e4fcd42d5e1f6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 7893926881380997845, guid: e994481bf20653745a4e4fcd42d5e1f6,
         type: 3}
@@ -98995,7 +99043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
