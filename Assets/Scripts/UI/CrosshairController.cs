@@ -5,18 +5,14 @@ using UnityEngine.UI;
 public class CrosshairController : MonoBehaviour
 {
     public RectTransform crosshairRoot;
-    public Camera mainCamera;
     private PlayerController _pc;
+    private CanvasGroup _canvasGroup;
 
-    private PlayerInput _input;
 
     public void Initialize(PlayerController player)
     {
         _pc = player;
-        if (_pc == null) return;
-
-        mainCamera = Camera.main;
-        _input = _pc.GetComponent<PlayerInput>();
+        _canvasGroup = GetComponent<CanvasGroup>();
     }
 
     private void LateUpdate()
@@ -26,11 +22,9 @@ public class CrosshairController : MonoBehaviour
 
     public void UpdateCrosshair()
     {
+        if (_pc == null || _canvasGroup == null) return;
 
-    }
-
-    private void ApplySpreadToLines(float spread)
-    {
-
+        bool shouldShow = _pc.isAiming;
+        _canvasGroup.alpha = shouldShow ? 1f : 0f;
     }
 }

@@ -90,7 +90,15 @@ public class ExcelToSOConverter
                     string assetPath = $"{soSavePath}Item_{id}.asset";
 
                     ItemData item = AssetDatabase.LoadAssetAtPath<ItemData>(assetPath);
-                    System.Type targetType = (tableType == ItemType.Food) ? typeof(FoodData) : typeof(ItemData);
+                    System.Type targetType = typeof(ItemData);
+                    if (tableType == ItemType.Food)
+                    {
+                        // 检查是否标记为肉类
+                        string isMeatStr = GetValue("IsMeat");
+                        bool isMeat = isMeatStr.ToLower() == "true";
+
+                        targetType = isMeat ? typeof(MeatData) : typeof(FoodData);
+                    }
 
                     if (item != null && item.GetType() != targetType)
                     {
@@ -112,8 +120,20 @@ public class ExcelToSOConverter
                     int.TryParse(GetValue("MaxStack"), out int maxStack);
                     item.maxStack = maxStack == 0 ? 1 : maxStack;
 
-                    item.prefabAddress = item.itemName;
-                    item.iconAddress = item.itemName + "Icon";
+                    if (item is MeatData meat)
+                    {
+                        meat.iconAddress = "生肉Icon";
+                        meat.prefabAddress = "生肉";
+                        meat.iconAddressCooked = "生肉Icon";
+                        meat.prefabAddressCooked = "熟肉";
+                        meat.iconAddressBurnt = "生肉Icon";
+                        meat.prefabAddressBurnt = "糊肉";
+                    }
+                    else
+                    {
+                        item.prefabAddress = item.itemName;
+                        item.iconAddress = item.itemName + "Icon";
+                    }
 
                     // 3. 如果是食物，填充特有的“潜力”属性
                     if (tableType == ItemType.Food && item is FoodData food)

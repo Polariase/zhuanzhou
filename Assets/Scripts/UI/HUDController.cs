@@ -116,7 +116,7 @@ public class HUDController : MonoBehaviour
         hpBufferFill.fillAmount = _hpBufferPct = hpFill.fillAmount;
         manaBufferFill.fillAmount = _manaBufferPct = manaFill.fillAmount;
         staminaBufferFill.fillAmount = _staminaBufferPct = staminaFill.fillAmount;
-        //hotbar.Initialize(_pc);
+        hotbar.Initialize(pc);
     }
 
     public void Cleanup()

@@ -55,7 +55,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - ItemData
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2d774e74d60fc4d40b8e6b8563e0daf0
+  - m_GUID: 30be264d3ca2f6943a1ca72fc766a6bf
     m_Address: "\u6728\u6750"
     m_ReadOnly: 0
     m_SerializedLabels: []

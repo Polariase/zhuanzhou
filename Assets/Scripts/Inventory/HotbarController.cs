@@ -10,11 +10,6 @@ public class HotbarController : BaseInventoryController
 
     private bool _isInitialized = false;
 
-    private void Awake()
-    {
-        CreateInventoryData();
-    }
-
     public void CreateInventoryData()
     {
         if (inventoryData != null) return;
@@ -68,34 +63,34 @@ public class HotbarController : BaseInventoryController
 
     private void ValidateCurrentSelection(int index,InventoryItem item)
     {
-        //index += 1;
+        index += 1;
 
-        //if (stateData.currentSelectedIndex <= 0 || index != stateData.currentSelectedIndex) return;
+        if (stateData.currentSelectedIndex <= 0 || index != stateData.currentSelectedIndex) return;
 
-        //if (item == null)
-        //{
-        //    stateData.UpdateSelection(0, null);
-        //}
-        //else
-        //{
-        //    stateData.UpdateSelection(index, item);
-        //}
+        if (item == null)
+        {
+            stateData.UpdateSelection(0, null);
+        }
+        else
+        {
+            stateData.UpdateSelection(index, item);
+        }
     }
 
     public void SelectSlot(int index)
     {
-        //int selectIndex = 0;
-        //InventoryItem item = null;
-        //if (index > 0 && index <= 6 && index != stateData.currentSelectedIndex)
-        //{
-        //    item = inventoryData.GetItem(index - 1);
-        //    if (item != null)
-        //    {
-        //        selectIndex = index;
-        //    }
-        //}
+        int selectIndex = 0;
+        InventoryItem item = null;
+        if (index > 0 && index <= _hotbarSize && index != stateData.currentSelectedIndex)
+        {
+            item = inventoryData.GetItem(index - 1);
+            if (item != null)
+            {
+                selectIndex = index;
+            }
+        }
 
-        //stateData.UpdateSelection(selectIndex, item);
+        stateData.UpdateSelection(selectIndex, item);
     }
 
     private bool IsValidHotbarItem(InventoryItem item)

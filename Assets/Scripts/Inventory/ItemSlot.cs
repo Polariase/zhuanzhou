@@ -9,6 +9,7 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public int slotIndex;
     public Image iconImage;
     public Image borderImage;
+    public Image bg;
     public TextMeshProUGUI countText;
     public Color normalColor;
     public Color highlightColor;
@@ -24,14 +25,14 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             return;
         }
         ItemData data = item.data;
-        iconImage.sprite = DataManager.Instance.GetIcon(data.iconAddress);
+        iconImage.sprite = DataManager.Instance.GetIcon(item.GetCurrentIconAddress());
         iconImage.enabled = true;
         countText.text = item.count > 1 ? item.count.ToString() : "";
     }
 
     public void SetHighlight(bool highlight)
     {
-        borderImage.color = highlight ? highlightColor : normalColor;
+        bg.color = highlight ? highlightColor : normalColor;
     }
 
     // Ã°ÅÝ¸ø Handler
