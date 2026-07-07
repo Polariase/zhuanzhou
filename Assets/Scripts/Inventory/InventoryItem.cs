@@ -1,13 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+
+public enum MeatState
+{
+    Raw,
+    Cooked,
+    Burnt
+}
 
 [Serializable]
 public class InventoryItem
 {
     public int count;
     public ItemData data;
+    public MeatState meatState = MeatState.Raw;
 
     public InventoryItem(ItemData itemData, int amount)
     {
@@ -17,9 +26,39 @@ public class InventoryItem
 
     public void AddCount(int amount) => count += amount;
 
+    public string GetCurrentIconAddress()
+    {
+        if (data is MeatData meat)
+        {
+            return meatState switch
+            {
+                MeatState.Cooked => meat.iconAddressCooked,
+                MeatState.Burnt => meat.iconAddressBurnt,
+                _ => meat.iconAddress
+            };
+        }
+
+        return data.iconAddress;
+    }
+
+    public string GetCurrentPrefabAddress()
+    {
+        if (data is MeatData meat)
+        {
+            return meatState switch
+            {
+                MeatState.Cooked => meat.prefabAddressCooked,
+                MeatState.Burnt => meat.prefabAddressBurnt,
+                _ => meat.prefabAddress
+            };
+        }
+        return data.prefabAddress;
+    }
+
     public InventoryItem Clone(int newCount)
     {
         InventoryItem newItem = new(data, newCount);
+        newItem.meatState = meatState;
         return newItem;
     }
 
@@ -37,7 +76,7 @@ public class InventoryItem
         if (ReferenceEquals(this, obj)) return true;
         if (obj is InventoryItem other)
         {
-            if (data == other.data)
+            if (data == other.data && meatState == other.meatState)
                 return true;
         }
         return false;

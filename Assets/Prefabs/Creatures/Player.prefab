@@ -142,6 +142,7 @@ GameObject:
   - component: {fileID: 2473780747686786387}
   - component: {fileID: 1161173514648402126}
   - component: {fileID: 15790007695032065}
+  - component: {fileID: 818979360809801277}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -263,6 +264,7 @@ MonoBehaviour:
     currentSelectedItem:
       count: 0
       data: {fileID: 0}
+      meatState: 0
     maxHp: 200
     hp: 200
     maxMana: 100
@@ -282,12 +284,19 @@ MonoBehaviour:
   chantStart: 0
   chantRecovery: 0
   camTarget: {fileID: 2758899161256369931}
-  topClamp: 45
-  botClamp: -30
+  topClamp: 60
+  botClamp: -45
   camAngleOverride: 0
   xSens: 16
   ySens: 5
   lockCam: 0
+  normalFOV: 45
+  aimFOV: 28
+  fovSmoothSpeed: 13
+  aimTargetMaxDistance: 100
+  aimLayerMask:
+    serializedVersion: 2
+    m_Bits: 57
   moveSpeed: 3
   runSpeedScale: 2
   airSpeedScale: 2
@@ -312,6 +321,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 1
   easeType: 6
+--- !u!114 &818979360809801277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618075540778541970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 441d7adf3efb23e43a7212c44d76bc61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactRadius: 2
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  scanInterval: 0.05
+  promptHeightOffset: 1
 --- !u!1 &738346214704364190
 GameObject:
   m_ObjectHideFlags: 0

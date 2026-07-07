@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private InputAction _jump;
     private InputAction _chant;
     private InputAction _cancel;
+    private InputAction _aim;
     private InputAction _complete;
     private InputAction _backspace;
 
@@ -52,6 +53,14 @@ public class PlayerController : MonoBehaviour
 
     private Camera _cam;
 
+    public float normalFOV = 45f;
+    public float aimFOV = 28f;
+    public float fovSmoothSpeed = 13f;
+    private CinemachineVirtualCamera _vCam;
+
+    public float aimTargetMaxDistance = 100f;
+    public LayerMask aimLayerMask = 0;
+
     [Header("Movement Settings")]
     public float moveSpeed = 3f;
     public float runSpeedScale = 2f;
@@ -75,7 +84,7 @@ public class PlayerController : MonoBehaviour
     public bool CanJump => isGrounded && stats.stamina >= jumpCost && !isChanting && CanAct;
     public bool CanChant => isGrounded && !isChanting && CanAct;
     public bool CanMove => !isChanting && CanAct;
-    public bool CanRun => stats.stamina > 0f && isGrounded;
+    public bool CanRun => stats.stamina > 0f && isGrounded && !isAiming;
 
     public bool CanRecHp => true;
     public bool CanRecMana=> true;
@@ -89,6 +98,12 @@ public class PlayerController : MonoBehaviour
             scale *= runSpeedScale;
         else if (!isGrounded)
             scale *= airSpeedScale;
+
+        int windLv = stats.elementStats[ElementType.Wind].lvl;
+        if (windLv > 1)
+        {
+            scale += scale * (windLv - 1) * 0.1f;
+        }
 
         return scale;
     }
@@ -116,6 +131,7 @@ public class PlayerController : MonoBehaviour
         _cancel = _input.actions["Cancel"];
         _complete = _input.actions["Complete"];
         _backspace = _input.actions["Backspace"];
+        _aim = _input.actions["Aim"];
 
         modelRoot = transform.Find("ModelRoot");
     }
@@ -149,6 +165,7 @@ public class PlayerController : MonoBehaviour
     private void LateUpdate()
     {
         HandleRotation();
+        HandleAim();
     }
 
     private void OnDestroy()
@@ -165,6 +182,8 @@ public class PlayerController : MonoBehaviour
         _jump.performed += OnJumpAction;
         _chant.performed += OnChantAction;
         _cancel.performed += OnAbortAction;
+        _aim.performed += OnAimAction;
+        _aim.canceled += OnCancelAimAction;
     }
 
     private void UnbindActions()
@@ -172,13 +191,15 @@ public class PlayerController : MonoBehaviour
         _jump.performed -= OnJumpAction;
         _chant.performed -= OnChantAction;
         _cancel.performed -= OnAbortAction;
+        _aim.performed -= OnAimAction;
+        _aim.canceled -= OnCancelAimAction;
     }
 
     public void Initialize(PlayerStats st, CinemachineVirtualCamera cam)
     {
         Cleanup();
         stats = st;
-
+        _vCam = cam;
         if (cam != null)
         {
             cam.Follow = camTarget.transform;
@@ -220,6 +241,9 @@ public class PlayerController : MonoBehaviour
         if (CanRecSt)
             stats.RecoverStamina(Time.deltaTime);
     }
+
+    private void OnAimAction(InputAction.CallbackContext context) => isAiming = true;
+    private void OnCancelAimAction(InputAction.CallbackContext context) => isAiming = false;
 
     private void OnChantAction(InputAction.CallbackContext context)
     {
@@ -290,8 +314,34 @@ public class PlayerController : MonoBehaviour
                 moveTargetDir = camForward * _inputDir.y + camRight * _inputDir.x;
                 moveTargetDir.Normalize();
 
-                Quaternion targetRotation = Quaternion.LookRotation(moveTargetDir);
-                modelRoot.rotation = Quaternion.Slerp(modelRoot.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+                if (isAiming && isGrounded)
+                {
+                    Ray ray = _cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+                    Vector3 targetPoint;
+
+                    if (Physics.Raycast(ray, out RaycastHit hit, aimTargetMaxDistance, aimLayerMask))
+                    {
+                        targetPoint = hit.point;
+                    }
+                    else
+                    {
+                        targetPoint = ray.GetPoint(aimTargetMaxDistance);
+                    }
+
+                    Vector3 lookDir = targetPoint - transform.position;
+                    lookDir.y = 0f;
+
+                    if (lookDir.sqrMagnitude > 0.001f)
+                    {
+                        Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+                        modelRoot.rotation = Quaternion.Slerp(modelRoot.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+                    }
+                }
+                else
+                {
+                    Quaternion targetRotation = Quaternion.LookRotation(moveTargetDir);
+                    modelRoot.rotation = Quaternion.Slerp(modelRoot.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+                }
             }
         }
 
@@ -321,7 +371,27 @@ public class PlayerController : MonoBehaviour
         float targetAnimY = 0f;
         if (isMoving)
         {
-            targetAnimY = 0.5f * SpeedScale();
+            if (isAiming)
+            {
+                Vector3 camForward = _cam.transform.forward;
+                Vector3 camRight = _cam.transform.right;
+                camForward.y = 0f;
+                camRight.y = 0f;
+                camForward.Normalize();
+                camRight.Normalize();
+
+                Vector3 worldMoveDir = camForward * _inputDir.y + camRight * _inputDir.x;
+
+                Vector3 localMoveDir = modelRoot.InverseTransformDirection(worldMoveDir);
+
+                float speedMultiplier = 0.5f * SpeedScale();
+                targetAnimX = localMoveDir.x * speedMultiplier;
+                targetAnimY = localMoveDir.z * speedMultiplier;
+            }
+            else
+            {
+                targetAnimY = 0.5f * SpeedScale();
+            }
         }
 
         _anim.SetFloat("X", targetAnimX, animDampTime, Time.deltaTime);
@@ -346,4 +416,12 @@ public class PlayerController : MonoBehaviour
         camTarget.transform.localRotation = Quaternion.Euler(_targetPitch + camAngleOverride, _targetYaw, 0.0f);
     }
 
+    private void HandleAim()
+    {
+        if (_vCam != null)
+        {
+            float targetFOV = isAiming ? aimFOV : normalFOV;
+            _vCam.m_Lens.FieldOfView = Mathf.Lerp(_vCam.m_Lens.FieldOfView, targetFOV, Time.deltaTime * fovSmoothSpeed);
+        }
+    }
 }

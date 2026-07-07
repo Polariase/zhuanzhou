@@ -20,7 +20,7 @@ public class ElementStats
         this.pot = pot;
     }
 
-    public static int ExpReq(int lv)
+    public static float ExpReq(int lv)
     {
         return Mathf.RoundToInt(10f * Mathf.Pow(1.1f, lv));
     }

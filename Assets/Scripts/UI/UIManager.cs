@@ -42,15 +42,8 @@ public class UIManager : MonoBehaviour
                 break;
             case GameState.Survival:
                 hud.gameObject.SetActive(true);
-                //if (_pc != null)
-                //{
-                //    UpdateCursorState(_pc.isArmed);
-                //}
-                //else
-                //{
-                //    ApplyCursorState(true, CursorLockMode.None, false);
-                //}
                 inventoryPanel.gameObject.SetActive(true);
+                UpdateUIState();
                 break;
         }
         Back();
@@ -103,31 +96,12 @@ public class UIManager : MonoBehaviour
         if (_panelStack.Count > 0)
         {
             _input.SwitchCurrentActionMap("UI");
+            ApplyCursorState(true, CursorLockMode.None, false);
         }
         else
         {
             _input.SwitchCurrentActionMap("Player");
-        }
-
-        //UpdateCursorState(_pc.isArmed);
-    }
-
-    private void UpdateCursorState(bool armed)
-    {
-        if (_panelStack.Count > 0)
-        {
-            ApplyCursorState(true, CursorLockMode.None, false);
-            return;
-        }
-
-        if (stats != null && armed)
-        {
-            ApplyCursorState(false, CursorLockMode.Confined, true);
-        }
-
-        else
-        {
-            ApplyCursorState(true, CursorLockMode.None, false);
+            ApplyCursorState(false, CursorLockMode.Locked, true);
         }
     }
 
@@ -147,7 +121,7 @@ public class UIManager : MonoBehaviour
 
         _input.actions["Player/Inventory"].performed += OnInventoryPerformed;
         _input.actions["UI/Inventory"].performed += OnInventoryPerformed;
-        _input.actions["UI/Cancel"].performed += OnCancelPerformed;
+        _input.actions["Quit"].performed += OnCancelPerformed;
         _input.actions["Pause"].performed += OnPausePerformed;
     }
 
@@ -157,7 +131,7 @@ public class UIManager : MonoBehaviour
 
         _input.actions["Player/Inventory"].performed -= OnInventoryPerformed;
         _input.actions["UI/Inventory"].performed -= OnInventoryPerformed;
-        _input.actions["UI/Cancel"].performed -= OnCancelPerformed;
+        _input.actions["Quit"].performed -= OnCancelPerformed;
         _input.actions["Pause"].performed -= OnPausePerformed;
     }
 
@@ -196,16 +170,11 @@ public class UIManager : MonoBehaviour
         BindInputs();
 
         hud.Initialize(_pc);
-        //crosshair.Initialize(_pc);
-        //UpdateCursorState(_pc.isArmed);
+        crosshair.Initialize(_pc);
     }
 
     private void Cleanup()
     {
-        //if (_pc != null)
-        //{
-        //    _pc.OnArmed -= UpdateCursorState;
-        //}
         UnbindInputs();
     }
 

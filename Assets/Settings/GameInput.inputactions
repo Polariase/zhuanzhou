@@ -113,6 +113,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Aim",
+                    "type": "Button",
+                    "id": "a024c5d9-0484-48a8-a970-a2275c8170a1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "1ff57e39-f837-4709-8ae3-bce4f23b3105",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -522,6 +540,28 @@
                     "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cdf38b6f-b2e8-4ed3-9fa7-89980d3cd7ce",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8e2bb328-cd14-4b08-a290-204b5eb0d84f",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -530,7 +570,7 @@
             "id": "bb372c44-9a92-44f0-862e-4fb713ad1294",
             "actions": [
                 {
-                    "name": "Cancel",
+                    "name": "Quit",
                     "type": "Button",
                     "id": "c035609c-6b68-4496-8f0e-2f5bea745850",
                     "expectedControlType": "",
@@ -556,7 +596,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse;Gamepad;Touch;Joystick;XR",
-                    "action": "Cancel",
+                    "action": "Quit",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
