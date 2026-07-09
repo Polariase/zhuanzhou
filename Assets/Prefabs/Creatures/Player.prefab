@@ -259,6 +259,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7024fd05743393f4cae1c3d39b72f9ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 3
+  capsule: {fileID: 0}
+  creatureElement: 0
+  isDead: 0
+  isMoving: 0
+  isInvincible: 0
   stats:
     currentSelectedIndex: 0
     currentSelectedItem:
@@ -279,7 +285,6 @@ MonoBehaviour:
   triFire1: {fileID: 3659765974629488520}
   triFire2: {fileID: 1507483202034566334}
   isGrounded: 0
-  isMoving: 0
   isAiming: 0
   isRunning: 0
   isChanting: 0
@@ -300,7 +305,6 @@ MonoBehaviour:
   aimLayerMask:
     serializedVersion: 2
     m_Bits: 57
-  moveSpeed: 3
   runSpeedScale: 2
   airSpeedScale: 2
   rotationSpeed: 15
