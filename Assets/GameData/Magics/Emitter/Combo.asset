@@ -16,3 +16,6 @@ MonoBehaviour:
   segName: "\u8FDE\u53D1"
   description: "\u820D\u5F03\u5A01\u529B\u8FFD\u6C42\u66F4\u5FEB\u901F\u5EA6\u7684\u53D1\u5C04\u65B9\u5F0F"
   id: 100
+  emitterType: 1
+  fireRateScale: 2
+  costScale: 1.5

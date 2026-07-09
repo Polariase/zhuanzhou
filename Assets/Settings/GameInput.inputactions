@@ -61,24 +61,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Cancel",
-                    "type": "Button",
-                    "id": "106beeba-3a45-4dfa-8555-95e34dde656f",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Complete",
-                    "type": "Button",
-                    "id": "2d8ecf33-74fd-4e4d-ad61-cee9c709d0d1",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Backspace",
                     "type": "Button",
                     "id": "7ee3ed7e-5c3e-465f-abeb-5f635e0d2a18",
@@ -136,6 +118,24 @@
                     "name": "ElementStats",
                     "type": "Button",
                     "id": "ae373292-88fa-4380-a75a-e02516e850df",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Abort",
+                    "type": "Button",
+                    "id": "c30237de-3785-4bf2-ba1f-4fdf43bd57de",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Complete",
+                    "type": "Button",
+                    "id": "ed5411ea-0a66-4433-84b5-6327dbc202cb",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -409,28 +409,6 @@
                 },
                 {
                     "name": "",
-                    "id": "8922bdab-f33d-4b49-be58-cfb2bc2f4d52",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Cancel",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "746ab083-d5d6-483e-a859-dfaa493aae24",
-                    "path": "<Keyboard>/enter",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Complete",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "49d23b64-0be7-439d-940e-c3329ae74d0b",
                     "path": "<Keyboard>/backspace",
                     "interactions": "",
@@ -591,6 +569,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "ElementStats",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "909b6942-7017-4e3b-92c9-75a6f6f309be",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Abort",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f3211358-a701-444f-822d-82a376db6f0e",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Complete",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

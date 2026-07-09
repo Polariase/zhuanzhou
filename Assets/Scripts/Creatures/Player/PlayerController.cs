@@ -1,4 +1,5 @@
 using Cinemachine;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
@@ -18,10 +19,9 @@ public class PlayerController : CreatureController
     private InputAction _run;
     private InputAction _jump;
     private InputAction _chant;
-    private InputAction _cancel;
+    private InputAction _abort;
     private InputAction _aim;
     private InputAction _complete;
-    private InputAction _backspace;
     private InputAction _use;
 
     private Vector2 _inputDir;
@@ -94,7 +94,7 @@ public class PlayerController : CreatureController
     public bool CanRecHp => true;
     public bool CanRecMana=> true;
     public bool CanRecSt => isGrounded;
-
+    public bool CanInteract => CanAct && !isChanting && !isCasting;
 
     public float SpeedScale()
     {
@@ -133,9 +133,8 @@ public class PlayerController : CreatureController
         _run = _input.actions["Run"];
         _jump = _input.actions["Jump"];
         _chant = _input.actions["Chant"];
-        _cancel = _input.actions["Cancel"];
+        _abort = _input.actions["Abort"];
         _complete = _input.actions["Complete"];
-        _backspace = _input.actions["Backspace"];
         _aim = _input.actions["Aim"];
         _use = _input.actions["Use"];
 
@@ -189,7 +188,8 @@ public class PlayerController : CreatureController
     {
         _jump.performed += OnJumpAction;
         _chant.performed += OnChantAction;
-        _cancel.performed += OnAbortAction;
+        _abort.performed += OnAbortAction;
+        _complete.performed += OnCompleteCast;
         _aim.performed += OnAimAction;
         _aim.canceled += OnCancelAimAction;
         _use.started += OnUseActionStarted;
@@ -200,7 +200,8 @@ public class PlayerController : CreatureController
     {
         _jump.performed -= OnJumpAction;
         _chant.performed -= OnChantAction;
-        _cancel.performed -= OnAbortAction;
+        _abort.performed -= OnAbortAction;
+        _complete.performed -= OnCompleteCast;
         _aim.performed -= OnAimAction;
         _aim.canceled -= OnCancelAimAction;
         _use.started -= OnUseActionStarted;
@@ -322,6 +323,8 @@ public class PlayerController : CreatureController
         isChanting = true;
         _circle.ToggleState(true);
         _anim.SetBool("Chanting", true);
+
+        UIManager.Instance.StartWordOrbit(stats.unlockedMagicKeywords, transform, new Vector3(0f, 0.5f, 0f));
     }
 
     private void OnAbortAction(InputAction.CallbackContext context)
@@ -330,6 +333,19 @@ public class PlayerController : CreatureController
         isChanting = false;
         _circle.ToggleState(false);
         _anim.SetBool("Chanting", false);
+
+        UIManager.Instance.wordOrbit.AbortChant();
+    }
+
+    private void OnCompleteCast(InputAction.CallbackContext context)
+    {
+        if (!isChanting || !CanAct) return;
+
+        isChanting = false;
+        _circle.ToggleState(false);
+        _anim.SetBool("Chanting", false);
+
+        UIManager.Instance.wordOrbit.CompleteChant();
     }
 
     private void OnJumpAction(InputAction.CallbackContext context)

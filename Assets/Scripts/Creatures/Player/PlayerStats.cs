@@ -50,6 +50,8 @@ public class PlayerStats
     public int currentSelectedIndex = 0;
     public InventoryItem currentSelectedItem;
     public Action<int, InventoryItem> OnSelectedChanged;
+    public List<string> unlockedMagicKeywords = new List<string>()
+    { "mofajian", "huohua", "shirun", "maosheng", "weifeng", "changgui", "gaosu" };
 
     public void ClearAllSubscribers()
     {

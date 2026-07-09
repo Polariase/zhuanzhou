@@ -10,7 +10,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityPhysics
         public SharedGameObject originGameObject;
         [Tooltip("Starts the sherecast at the position. Only used if originGameObject is null")]
         public SharedVector3 originPosition;
-        [Tooltip("The radius of the spherecast")]
+        [Tooltip("The baseRadius of the spherecast")]
         public SharedFloat radius;
         [Tooltip("The direction of the spherecast")]
         public SharedVector3 direction;

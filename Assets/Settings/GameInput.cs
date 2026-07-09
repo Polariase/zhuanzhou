@@ -147,24 +147,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Cancel"",
-                    ""type"": ""Button"",
-                    ""id"": ""106beeba-3a45-4dfa-8555-95e34dde656f"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Complete"",
-                    ""type"": ""Button"",
-                    ""id"": ""2d8ecf33-74fd-4e4d-ad61-cee9c709d0d1"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Backspace"",
                     ""type"": ""Button"",
                     ""id"": ""7ee3ed7e-5c3e-465f-abeb-5f635e0d2a18"",
@@ -222,6 +204,24 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""name"": ""ElementStats"",
                     ""type"": ""Button"",
                     ""id"": ""ae373292-88fa-4380-a75a-e02516e850df"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Abort"",
+                    ""type"": ""Button"",
+                    ""id"": ""c30237de-3785-4bf2-ba1f-4fdf43bd57de"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Complete"",
+                    ""type"": ""Button"",
+                    ""id"": ""ed5411ea-0a66-4433-84b5-6327dbc202cb"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -495,28 +495,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""8922bdab-f33d-4b49-be58-cfb2bc2f4d52"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Cancel"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""746ab083-d5d6-483e-a859-dfaa493aae24"",
-                    ""path"": ""<Keyboard>/enter"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Complete"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""49d23b64-0be7-439d-940e-c3329ae74d0b"",
                     ""path"": ""<Keyboard>/backspace"",
                     ""interactions"": """",
@@ -679,6 +657,28 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""action"": ""ElementStats"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""909b6942-7017-4e3b-92c9-75a6f6f309be"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Abort"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f3211358-a701-444f-822d-82a376db6f0e"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Complete"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -822,8 +822,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Chant = m_Player.FindAction("Chant", throwIfNotFound: true);
-        m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
-        m_Player_Complete = m_Player.FindAction("Complete", throwIfNotFound: true);
         m_Player_Backspace = m_Player.FindAction("Backspace", throwIfNotFound: true);
         m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
         m_Player_SwitchSlot = m_Player.FindAction("SwitchSlot", throwIfNotFound: true);
@@ -831,6 +829,8 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_ElementStats = m_Player.FindAction("ElementStats", throwIfNotFound: true);
+        m_Player_Abort = m_Player.FindAction("Abort", throwIfNotFound: true);
+        m_Player_Complete = m_Player.FindAction("Complete", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Quit = m_UI.FindAction("Quit", throwIfNotFound: true);
@@ -923,8 +923,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Run;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Chant;
-    private readonly InputAction m_Player_Cancel;
-    private readonly InputAction m_Player_Complete;
     private readonly InputAction m_Player_Backspace;
     private readonly InputAction m_Player_Inventory;
     private readonly InputAction m_Player_SwitchSlot;
@@ -932,6 +930,8 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_ElementStats;
+    private readonly InputAction m_Player_Abort;
+    private readonly InputAction m_Player_Complete;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -968,14 +968,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Chant => m_Wrapper.m_Player_Chant;
         /// <summary>
-        /// Provides access to the underlying input action "Player/Cancel".
-        /// </summary>
-        public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/Complete".
-        /// </summary>
-        public InputAction @Complete => m_Wrapper.m_Player_Complete;
-        /// <summary>
         /// Provides access to the underlying input action "Player/Backspace".
         /// </summary>
         public InputAction @Backspace => m_Wrapper.m_Player_Backspace;
@@ -1003,6 +995,14 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/ElementStats".
         /// </summary>
         public InputAction @ElementStats => m_Wrapper.m_Player_ElementStats;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Abort".
+        /// </summary>
+        public InputAction @Abort => m_Wrapper.m_Player_Abort;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Complete".
+        /// </summary>
+        public InputAction @Complete => m_Wrapper.m_Player_Complete;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1047,12 +1047,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Chant.started += instance.OnChant;
             @Chant.performed += instance.OnChant;
             @Chant.canceled += instance.OnChant;
-            @Cancel.started += instance.OnCancel;
-            @Cancel.performed += instance.OnCancel;
-            @Cancel.canceled += instance.OnCancel;
-            @Complete.started += instance.OnComplete;
-            @Complete.performed += instance.OnComplete;
-            @Complete.canceled += instance.OnComplete;
             @Backspace.started += instance.OnBackspace;
             @Backspace.performed += instance.OnBackspace;
             @Backspace.canceled += instance.OnBackspace;
@@ -1074,6 +1068,12 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @ElementStats.started += instance.OnElementStats;
             @ElementStats.performed += instance.OnElementStats;
             @ElementStats.canceled += instance.OnElementStats;
+            @Abort.started += instance.OnAbort;
+            @Abort.performed += instance.OnAbort;
+            @Abort.canceled += instance.OnAbort;
+            @Complete.started += instance.OnComplete;
+            @Complete.performed += instance.OnComplete;
+            @Complete.canceled += instance.OnComplete;
         }
 
         /// <summary>
@@ -1103,12 +1103,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Chant.started -= instance.OnChant;
             @Chant.performed -= instance.OnChant;
             @Chant.canceled -= instance.OnChant;
-            @Cancel.started -= instance.OnCancel;
-            @Cancel.performed -= instance.OnCancel;
-            @Cancel.canceled -= instance.OnCancel;
-            @Complete.started -= instance.OnComplete;
-            @Complete.performed -= instance.OnComplete;
-            @Complete.canceled -= instance.OnComplete;
             @Backspace.started -= instance.OnBackspace;
             @Backspace.performed -= instance.OnBackspace;
             @Backspace.canceled -= instance.OnBackspace;
@@ -1130,6 +1124,12 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @ElementStats.started -= instance.OnElementStats;
             @ElementStats.performed -= instance.OnElementStats;
             @ElementStats.canceled -= instance.OnElementStats;
+            @Abort.started -= instance.OnAbort;
+            @Abort.performed -= instance.OnAbort;
+            @Abort.canceled -= instance.OnAbort;
+            @Complete.started -= instance.OnComplete;
+            @Complete.performed -= instance.OnComplete;
+            @Complete.canceled -= instance.OnComplete;
         }
 
         /// <summary>
@@ -1396,20 +1396,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnChant(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Cancel" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnCancel(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Complete" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnComplete(InputAction.CallbackContext context);
-        /// <summary>
         /// Method invoked when associated input action "Backspace" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -1458,6 +1444,20 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnElementStats(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Abort" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAbort(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Complete" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnComplete(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

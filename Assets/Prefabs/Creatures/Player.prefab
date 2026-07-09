@@ -259,10 +259,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7024fd05743393f4cae1c3d39b72f9ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 3
+  capsule: {fileID: 0}
+  creatureElement: 0
+  isDead: 0
+  isMoving: 0
+  isInvincible: 0
   stats:
     currentSelectedIndex: 0
     currentSelectedItem:
       count: 0
+    unlockedMagicKeywords:
+    - mofajian
+    - huohua
+    - shirun
+    - maosheng
+    - weifeng
+    - changgui
+    - gaosu
     maxHp: 200
     hp: 200
     maxMana: 100
@@ -279,7 +293,6 @@ MonoBehaviour:
   triFire1: {fileID: 3659765974629488520}
   triFire2: {fileID: 1507483202034566334}
   isGrounded: 0
-  isMoving: 0
   isAiming: 0
   isRunning: 0
   isChanting: 0
@@ -300,7 +313,6 @@ MonoBehaviour:
   aimLayerMask:
     serializedVersion: 2
     m_Bits: 57
-  moveSpeed: 3
   runSpeedScale: 2
   airSpeedScale: 2
   rotationSpeed: 15
@@ -431,7 +443,7 @@ Transform:
   m_GameObject: {fileID: 941492533192474083}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.3, z: 0}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

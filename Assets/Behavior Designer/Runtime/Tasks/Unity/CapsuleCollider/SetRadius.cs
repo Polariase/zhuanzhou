@@ -3,12 +3,12 @@ using UnityEngine;
 namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityCapsuleCollider
 {
     [TaskCategory("Unity/CapsuleCollider")]
-    [TaskDescription("Sets the radius of the CapsuleCollider. Returns Success.")]
+    [TaskDescription("Sets the baseRadius of the CapsuleCollider. Returns Success.")]
     public class SetRadius : Action
     {
         [Tooltip("The GameObject that the task operates on. If null the task GameObject is used.")]
         public SharedGameObject targetGameObject;
-        [Tooltip("The radius of the CapsuleCollider")]
+        [Tooltip("The baseRadius of the CapsuleCollider")]
         public SharedFloat radius;
 
         private CapsuleCollider capsuleCollider;

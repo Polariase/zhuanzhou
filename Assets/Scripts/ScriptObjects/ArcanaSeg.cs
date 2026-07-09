@@ -14,4 +14,9 @@ public class ArcanaSeg : MagicSeg
     public float detectSize;
     public float size;
     public string projKey;
+
+    public ArcanaSeg()
+    {
+        segStr = "Arcana";
+    }
 }

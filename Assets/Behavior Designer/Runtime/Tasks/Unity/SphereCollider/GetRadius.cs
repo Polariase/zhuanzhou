@@ -3,12 +3,12 @@ using UnityEngine;
 namespace BehaviorDesigner.Runtime.Tasks.Unity.UnitySphereCollider
 {
     [TaskCategory("Unity/SphereCollider")]
-    [TaskDescription("Stores the radius of the SphereCollider. Returns Success.")]
+    [TaskDescription("Stores the baseRadius of the SphereCollider. Returns Success.")]
     public class GetRadius : Action
     {
         [Tooltip("The GameObject that the task operates on. If null the task GameObject is used.")]
         public SharedGameObject targetGameObject;
-        [Tooltip("The radius of the SphereCollider")]
+        [Tooltip("The baseRadius of the SphereCollider")]
         [RequiredField]
         public SharedFloat storeValue;
 

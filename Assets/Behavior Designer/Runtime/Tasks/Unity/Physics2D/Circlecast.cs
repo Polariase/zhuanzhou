@@ -10,7 +10,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityPhysics2D
         public SharedGameObject originGameObject;
         [Tooltip("Starts the circlecast at the position. Only used if originGameObject is null.")]
         public SharedVector2 originPosition;
-        [Tooltip("The radius of the circlecast")]
+        [Tooltip("The baseRadius of the circlecast")]
         public SharedFloat radius;
         [Tooltip("The direction of the circlecast")]
         public SharedVector2 direction;

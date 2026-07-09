@@ -11,4 +11,9 @@ public class ModifierSeg : MagicSeg
     public float distScale;
     public float rateScale;
     public float sizeScale;
+
+    public ModifierSeg()
+    {
+        segStr = "Modifier";
+    }
 }

@@ -108,9 +108,9 @@ public abstract class BaseInventoryController : MonoBehaviour, IInventoryHandler
         InventoryItem itemToDrop = session.Item;
         inventoryData.SetItem(session.SourceIndex, null);
 
-        Transform player = PlayerController.Instance.transform;
+        Transform player = PlayerController.Instance.modelRoot;
         float distance = 1f;
-        float height = 0.5f;
+        float height = 1f;
 
         Vector3 spawnPos = player.position + (player.forward * distance) + (Vector3.up * height);
 

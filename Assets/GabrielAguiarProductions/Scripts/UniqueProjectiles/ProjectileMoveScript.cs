@@ -44,7 +44,7 @@ public class ProjectileMoveScript : MonoBehaviour {
         startPos = transform.position;
         rb = GetComponent <Rigidbody> ();
 
-		//used to create a radius for the accuracy and have a very unique randomness
+		//used to create a baseRadius for the accuracy and have a very unique randomness
 		if (accuracy != 100) {
 			accuracy = 1 - (accuracy / 100);
 

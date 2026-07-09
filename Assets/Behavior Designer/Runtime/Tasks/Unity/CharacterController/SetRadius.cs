@@ -3,12 +3,12 @@ using UnityEngine;
 namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityCharacterController
 {
     [TaskCategory("Unity/CharacterController")]
-    [TaskDescription("Sets the radius of the CharacterController. Returns Success.")]
+    [TaskDescription("Sets the baseRadius of the CharacterController. Returns Success.")]
     public class SetRadius : Action
     {
         [Tooltip("The GameObject that the task operates on. If null the task GameObject is used.")]
         public SharedGameObject targetGameObject;
-        [Tooltip("The radius of the CharacterController")]
+        [Tooltip("The baseRadius of the CharacterController")]
         public SharedFloat radius;
 
         private CharacterController characterController;

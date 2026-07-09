@@ -88,7 +88,6 @@ public class CircleController : MonoBehaviour
             ChangeParticleColors(pFast, pSlow);
             decalObject.SetActive(true);
             circlePs.Play();
-            Debug.Log("Played");
         }
         else
         {

@@ -42,6 +42,25 @@ public class PopupManager : MonoBehaviour
         }
     }
 
+    public GameObject SpawnMagicSegText(string poolKey, Vector3 worldPosition, Transform parent)
+    {
+        if (popupPool == null) return null;
+
+        GameObject segGo = popupPool.Get(poolKey, worldPosition);
+        if (segGo != null && parent != null)
+        {
+            segGo.transform.SetParent(parent);
+            segGo.transform.localScale = Vector3.one;
+        }
+        return segGo;
+    }
+
+    public void HideMagicSegText(GameObject segGo, string poolKey)
+    {
+        if (popupPool == null || segGo == null) return;
+        popupPool.Release(segGo, poolKey);
+    }
+
     public GameObject ShowInteractPrompt(Vector3 targetWorldPos, float heightOffset = 1.5f)
     {
         if (popupPool == null) return null;

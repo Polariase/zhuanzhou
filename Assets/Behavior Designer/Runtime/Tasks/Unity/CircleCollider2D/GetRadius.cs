@@ -3,12 +3,12 @@ using UnityEngine;
 namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityCircleCollider2D
 {
     [TaskCategory("Unity/CircleCollider2D")]
-    [TaskDescription("Stores the radius of the CircleCollider2D. Returns Success.")]
+    [TaskDescription("Stores the baseRadius of the CircleCollider2D. Returns Success.")]
     public class GetRadius : Action
     {
         [Tooltip("The GameObject that the task operates on. If null the task GameObject is used.")]
         public SharedGameObject targetGameObject;
-        [Tooltip("The radius of the CircleCollider2D")]
+        [Tooltip("The baseRadius of the CircleCollider2D")]
         [RequiredField]
         public SharedFloat storeValue;
 

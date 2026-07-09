@@ -8,4 +8,5 @@ public class MagicSeg : ScriptableObject
     public string segName;
     public string description;
     public int id;
+    public string segStr;
 }

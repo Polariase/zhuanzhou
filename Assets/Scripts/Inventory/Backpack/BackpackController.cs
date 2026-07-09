@@ -55,5 +55,23 @@ public class BackpackController : BaseInventoryController
             MagicItemRuntime mr = new(arcana, ele, em, null);
             inventoryData.AddItem(new InventoryItem(mr, 1));
         }
+        if (Input.GetKeyDown(KeyCode.Keypad4))
+        {
+            ArcanaSeg arcana = DataManager.Instance.GetMagicSeg<ArcanaSeg>("molibiaoqiang");
+            ElementSeg ele = DataManager.Instance.GetMagicSeg<ElementSeg>("zhongyan");
+            EmitterSeg em = DataManager.Instance.GetMagicSeg<EmitterSeg>("lianfa");
+            ModifierSeg mod = DataManager.Instance.GetMagicSeg<ModifierSeg>("weixing");
+            MagicItemRuntime mr = new(arcana, ele, em, mod);
+            inventoryData.AddItem(new InventoryItem(mr, 1));
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad5))
+        {
+            ArcanaSeg arcana = DataManager.Instance.GetMagicSeg<ArcanaSeg>("molibiaoqiang");
+            ElementSeg ele = DataManager.Instance.GetMagicSeg<ElementSeg>("zhongyan");
+            EmitterSeg em = DataManager.Instance.GetMagicSeg<EmitterSeg>("lianfa");
+            ModifierSeg mod = DataManager.Instance.GetMagicSeg<ModifierSeg>("juxing");
+            MagicItemRuntime mr = new(arcana, ele, em, mod);
+            inventoryData.AddItem(new InventoryItem(mr, 1));
+        }
     }
 }

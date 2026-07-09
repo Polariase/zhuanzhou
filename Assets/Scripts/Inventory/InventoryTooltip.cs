@@ -1,7 +1,5 @@
 using UnityEngine;
 using TMPro;
-using JetBrains.Annotations;
-using UnityEditor.UIElements;
 
 public class InventoryTooltip : MonoBehaviour
 {
@@ -34,11 +32,18 @@ public class InventoryTooltip : MonoBehaviour
         }
         else if (item.runtimeData is MagicItemRuntime magic)
         {
-            extraInfo += "\n\n法术属性\n" +
-                         $"威力: <color=#FF5555>{magic.Damage:F1}</color>\n" +
-                         $"魔耗: <color=#55FFFF>{magic.Cost:F1}</color>\n" +
-                         $"弹速: <color=#FFFF55>{magic.Speed:F1}</color>\n" +
-                         $"属性: {magic.Element.GetName()}";
+            if (magic.arcana == null || magic.emitter == null || magic.element == null)
+                extraInfo += "无效法术";
+            else
+                extraInfo += "\n\n法术属性\n" +
+                             $"威力: <color=#FF5555>{magic.Damage:F1}</color>\n" +
+                             $"魔耗: <color=#55FFFF>{magic.Cost:F1}</color>\n" +
+                             $"弹速: <color=#FFFF55>{magic.Speed:F1}</color>\n" +
+                             $"射程: <color=#FFFF55>{magic.Dist:F1}</color>\n" +
+                             $"尺寸: <color=#FFFF55>{magic.Size:F1}</color>\n" +
+                             $"判定尺寸: <color=#FFFF55>{magic.DetectSize:F2}</color>\n" +
+                             $"射速: <color=#FFFF55>{magic.FireRate:F1}</color>\n" +
+                             $"属性: {magic.Element.GetName()}";
         }
 
         infoText.text = extraInfo;

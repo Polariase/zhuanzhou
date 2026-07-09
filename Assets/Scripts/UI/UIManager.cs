@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public PausePanel pausePanel;
     public DeathPanel deathPanel;
     public ElementStatsPanel elementStatsPanel;
+    public WordOrbitController wordOrbit;
 
     public CrosshairController crosshair;
     public HUDController hud;
@@ -140,11 +141,22 @@ public class UIManager : MonoBehaviour
         _input.actions["UI/ElementStats"].performed -= OnElementStatsPerformed;
     }
 
+    public void StartWordOrbit(List<string> keywords, Transform target, Vector3 offset)
+    {
+        wordOrbit.gameObject.SetActive(true);
+        wordOrbit.InitAndSpawn(keywords, target, offset);
+    }
+
+    public void EndWordOrbit()
+    {
+        wordOrbit.Dismiss();
+    }
+
     private void OnElementStatsPerformed(InputAction.CallbackContext ctx)
     {
         if (elementStatsPanel != null && elementStatsPanel.isOpen)
             Back();
-        else
+        else if (!PlayerController.Instance.isChanting)
             OpenPanel(elementStatsPanel);
     }
 

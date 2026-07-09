@@ -12,7 +12,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityRigidbody
         public SharedFloat explosionForce;
         [Tooltip("The position of the explosion")]
         public SharedVector3 explosionPosition;
-        [Tooltip("The radius of the explosion")]
+        [Tooltip("The baseRadius of the explosion")]
         public SharedFloat explosionRadius;
         [Tooltip("Applies the force as if it was applied from beneath the object")]
         public float upwardsModifier = 0;

@@ -17,6 +17,7 @@ public class PlayerInteraction : MonoBehaviour
     private readonly Collider[] _scanResults = new Collider[10];
 
     private InputAction _interactAction;
+    private PlayerController _pc;
 
     private void Start()
     {
@@ -28,6 +29,7 @@ public class PlayerInteraction : MonoBehaviour
                 _interactAction = playerInput.actions["Interact"];
                 _interactAction.performed += OnInteract;
             }
+            _pc = GetComponent<PlayerController>();
         }
     }
 
@@ -42,6 +44,16 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Update()
     {
+        if (!_pc.CanInteract)
+        {
+            if (_bestTarget != null || _currentActivePrompt != null)
+            {
+                _bestTarget = null;
+                ClearCurrentPrompt();
+            }
+            return;
+        }
+
         _timer += Time.deltaTime;
         if (_timer >= scanInterval)
         {

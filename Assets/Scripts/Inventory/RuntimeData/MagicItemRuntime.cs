@@ -14,16 +14,18 @@ public class MagicItemRuntime : ItemRuntimeData,IItemUseHandler
     public EmitterSeg emitter;
     public ModifierSeg modifier;
 
-    public float Damage => arcana != null ? arcana.damage * (element != null ? element.damageScale : 1f) * (modifier != null ? modifier.damageScale : 1f) : 0f;
-    public float Cost => arcana != null ? arcana.cost * (element != null ? element.costScale : 1f) * (modifier != null ? modifier.costScale : 1f) : 0f;
-    public float Speed => arcana != null ? arcana.speed * (element != null ? element.speedScale : 1f) * (modifier != null ? modifier.speedScale : 1f) : 0f;
-    public float Dist => arcana!= null? arcana.distance *(element != null ? element.distScale : 1f) * (modifier != null ? modifier.distScale : 1f) : 0f;
-    public float FireRate => arcana != null ? arcana.firerate * (element != null ? element.rateScale : 1f) * (modifier != null ? modifier.rateScale : 1f) : 0f;
-    public float Size => arcana != null ? arcana.size * (modifier != null ? modifier.sizeScale : 1f) : 0f;
-    public float DetectSize => arcana != null ? arcana.detectSize * (modifier != null ? modifier.sizeScale : 1f) : 0f;
+    public float Damage => arcana.damage * element.damageScale * (modifier != null ? modifier.damageScale : 1f);
+    public float Cost => arcana.cost * element.costScale * emitter.costScale * (modifier != null ? modifier.costScale : 1f);
+    public float Speed => arcana.speed * element.speedScale * (modifier != null ? modifier.speedScale : 1f);
+    public float Dist => arcana.distance * element.distScale * (modifier != null ? modifier.distScale : 1f);
+    public float FireRate => arcana.firerate * element.rateScale * emitter.fireRateScale * (modifier != null ? modifier.rateScale : 1f);
+    public float Size => arcana.size * (modifier != null ? modifier.sizeScale : 1f);
+    public float DetectSize => arcana.detectSize * (modifier != null ? modifier.sizeScale : 1f);
 
-    public ElementType Element => element != null ? element.type : ElementType.None;
+    public ElementType Element => element.type;
     public string ProjKey => arcana != null ? arcana.projKey : "";
+
+    private int _currentTriFireIndex = 0;
 
 
     public MagicItemRuntime(ArcanaSeg arcana, ElementSeg element, EmitterSeg emitter, ModifierSeg modifier)
@@ -38,7 +40,7 @@ public class MagicItemRuntime : ItemRuntimeData,IItemUseHandler
     {
         get
         {
-            if (arcana == null || element == null || emitter == null) return 0;
+            if (arcana == null || element == null || emitter == null) return 1;
             int arcId = arcana.id;
             int eleId = element.id;
             int emiId = emitter.id;
@@ -90,16 +92,26 @@ public class MagicItemRuntime : ItemRuntimeData,IItemUseHandler
     {
         if (arcana == null || element == null || emitter == null) return;
         context.player.isCasting = true;
-        Debug.Log("seted");
     }
 
     public void OnUseTick(ItemUseContext context)
     {
+        if (arcana == null || element == null || emitter == null) return;
+
         if (Time.time < _nextFireTime)
         {
             return;
         }
+
+        if (context.player.stats.mana < Cost)
+        {
+            OnUseEnd(context);
+            return;
+        }
+
         context.player.isCasting = true;
+
+        context.player.stats.Regene(-Cost);
 
         // 如果冷却结束，正式产生子弹并刷新冷却
         SpawnProjectile(context.player,context);
@@ -111,14 +123,30 @@ public class MagicItemRuntime : ItemRuntimeData,IItemUseHandler
 
     public void OnUseEnd(ItemUseContext context)
     {
+        if (arcana == null || element == null || emitter == null) return;
+
         context.player.isCasting = false;
-        Debug.Log("endded");
+        _currentTriFireIndex = 0;
     }
 
     private void SpawnProjectile(PlayerController player,ItemUseContext context)
     {
-        // 1. 确定发射位置：优先使用配置的 mainFire，如果没有则兜底使用玩家中心
-        Transform fireTransform = player.mainFire != null ? player.mainFire : player.transform;
+        if (arcana == null || element == null || emitter == null) return;
+
+        Transform fireTransform = player.mainFire;
+        if (emitter != null && emitter.emitterType == EmitterType.Combo)
+        {
+            fireTransform = _currentTriFireIndex switch
+            {
+                0 => player.triFire0,
+                1 => player.triFire1,
+                2 => player.triFire2,
+                _ => fireTransform
+            };
+
+            _currentTriFireIndex = (_currentTriFireIndex + 1) % 3;
+        }
+
         Vector3 firePosition = fireTransform.position;
 
         // 2. 初始化发射朝向

@@ -102,4 +102,9 @@ public class ElementSeg : MagicSeg
     public float distScale;
     public float rateScale;
     public int tier;
+
+    public ElementSeg()
+    {
+        segStr = "Element";
+    }
 }
