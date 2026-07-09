@@ -12,6 +12,10 @@ public abstract class ItemRuntimeData
     public abstract string Desc { get; }
 
     public abstract ItemRuntimeData Clone();
+
+    public virtual bool CanPlaceInHotbar => false;
+
+    public virtual IItemUseHandler GetUseHandler() => null;
 }
 
 [Serializable]
@@ -33,8 +37,11 @@ public class NormalItemRuntime : ItemRuntimeData
 }
 
 [Serializable]
-public class FoodItemRuntime : ItemRuntimeData
+public class FoodItemRuntime : ItemRuntimeData, IItemUseHandler
 {
+    public override bool CanPlaceInHotbar => true;
+    public override IItemUseHandler GetUseHandler() => this;
+
     private readonly FoodData _shared;
 
     public float WindPot => _shared.windPot * PotScale;
@@ -82,5 +89,20 @@ public class FoodItemRuntime : ItemRuntimeData
     {
         var clone = new FoodItemRuntime(_shared, meatState);
         return clone;
+    }
+
+    public void OnUseStart(ItemUseContext context)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnUseTick(ItemUseContext context)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnUseEnd(ItemUseContext context)
+    {
+        throw new NotImplementedException();
     }
 }

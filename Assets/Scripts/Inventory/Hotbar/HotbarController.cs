@@ -98,16 +98,6 @@ public class HotbarController : BaseInventoryController
         // 如果槽位变为空（item为null），始终允许
         if (item == null || item.runtimeData.ItemID <= 0) return true;
 
-        var config = item.runtimeData;
-        if (config == null) return false;
-
-        return false;
-    }
-
-
-    private void UseItem(int index)
-    {
-        InventoryItem item = inventoryData.GetItem(index);
-        if (item == null) return;
+        return item.runtimeData.CanPlaceInHotbar;
     }
 }

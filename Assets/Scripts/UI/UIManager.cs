@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     public LoadingPanel loadingPanel;
     public PausePanel pausePanel;
     public DeathPanel deathPanel;
+    public ElementStatsPanel elementStatsPanel;
 
     public CrosshairController crosshair;
     public HUDController hud;
@@ -123,6 +124,8 @@ public class UIManager : MonoBehaviour
         _input.actions["UI/Inventory"].performed += OnInventoryPerformed;
         _input.actions["Quit"].performed += OnCancelPerformed;
         _input.actions["Pause"].performed += OnPausePerformed;
+        _input.actions["Player/ElementStats"].performed += OnElementStatsPerformed;
+        _input.actions["UI/ElementStats"].performed += OnElementStatsPerformed;
     }
 
     private void UnbindInputs()
@@ -133,6 +136,16 @@ public class UIManager : MonoBehaviour
         _input.actions["UI/Inventory"].performed -= OnInventoryPerformed;
         _input.actions["Quit"].performed -= OnCancelPerformed;
         _input.actions["Pause"].performed -= OnPausePerformed;
+        _input.actions["Player/ElementStats"].performed -= OnElementStatsPerformed;
+        _input.actions["UI/ElementStats"].performed -= OnElementStatsPerformed;
+    }
+
+    private void OnElementStatsPerformed(InputAction.CallbackContext ctx)
+    {
+        if (elementStatsPanel != null && elementStatsPanel.isOpen)
+            Back();
+        else
+            OpenPanel(elementStatsPanel);
     }
 
     private void OnPausePerformed(InputAction.CallbackContext ctx)

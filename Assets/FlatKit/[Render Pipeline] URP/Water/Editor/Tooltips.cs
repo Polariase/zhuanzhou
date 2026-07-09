@@ -8,7 +8,7 @@ public static class Tooltips {
         {"Shallow", "Color at the top of the water."},
 		{"Deep", "Color below the surface."},
 		{"Shallow depth", "The distance from surface where the transition from shallow to deep color starts."},
-		{"Gradient size", "The height of the transition between the shallow and the deep colors."},
+		{"Gradient detectSize", "The height of the transition between the shallow and the deep colors."},
 		{"Transparency", "How clear the color of the water is. " +
 		                 "The transparency doesn't affect other parameters like foam or refractions. " +
 		                 "This allows you to achieve awesome weird optical effects."},

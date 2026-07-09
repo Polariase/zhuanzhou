@@ -3,7 +3,7 @@ using UnityEngine;
 namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator
 {
     [TaskCategory("Unity/Animator")]
-    [TaskDescription("Plays an animator state. Returns Success.")]
+    [TaskDescription("Plays an _anim state. Returns Success.")]
     public class Play : Action
     {
         [Tooltip("The GameObject that the task operates on. If null the task GameObject is used.")]

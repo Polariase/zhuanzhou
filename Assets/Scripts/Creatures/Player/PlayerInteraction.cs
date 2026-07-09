@@ -16,15 +16,28 @@ public class PlayerInteraction : MonoBehaviour
 
     private readonly Collider[] _scanResults = new Collider[10];
 
+    private InputAction _interactAction;
+
     private void Start()
     {
-        PlayerController.Instance.GetComponent<PlayerInput>().actions["Interact"].performed += OnInteract;
+        if (PlayerController.Instance != null)
+        {
+            var playerInput = PlayerController.Instance.GetComponent<PlayerInput>();
+            if (playerInput != null)
+            {
+                _interactAction = playerInput.actions["Interact"];
+                _interactAction.performed += OnInteract;
+            }
+        }
     }
 
     private void OnDestroy()
     {
-        if (PlayerController.Instance == null) return;
-        PlayerController.Instance.GetComponent<PlayerInput>().actions["Interact"].performed -= OnInteract;
+        if (_interactAction != null)
+        {
+            _interactAction.performed -= OnInteract;
+        }
+        ClearCurrentPrompt();
     }
 
     private void Update()

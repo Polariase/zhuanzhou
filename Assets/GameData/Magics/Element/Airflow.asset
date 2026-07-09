@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4484ab7ee6f2ab74890eb2bfc3983bb7, type: 3}
+  m_Name: Airflow
+  m_EditorClassIdentifier: 
+  keyword: qiliu
+  segName: "\u6C14\u6D41"
+  description: "\u4E2D\u9636\u7684\u98CE\u5C5E\u6027\u5143\u7D20\u7247\u6BB5"
+  id: 1
+  type: 1
+  damageScale: 0.95
+  costScale: 1.1
+  speedScale: 1.2
+  distScale: 1.1
+  rateScale: 1.1
+  tier: 1

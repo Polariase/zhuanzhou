@@ -11,7 +11,7 @@ using UnityEngine;
 namespace Synty.Interface.FantasyWarriorHUD.Samples
 {
     /// <summary>
-    ///     A simple animator that loops between two values.
+    ///     A simple _anim that loops between two values.
     /// </summary>
     public class SampleLoopAnimator : MonoBehaviour
     {

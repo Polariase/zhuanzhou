@@ -15,6 +15,30 @@ public enum ElementType
 
 public static class ElementExtensions
 {
+    private static readonly float[][] DamageMatrix = new float[][]
+    {
+        // ·ÀÊØ·½: None   Wind   Fire   Water  Grass  Dark
+        new float[] { 1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  0.75f }, // ¹¥»÷·½: None
+        new float[] { 1.0f,  1.0f,  0.67f, 1.0f,  1.5f,  0.75f }, // ¹¥»÷·½: Wind 
+        new float[] { 1.0f,  1.0f,  1.0f,  0.67f, 1.5f,  0.75f }, // ¹¥»÷·½: Fire 
+        new float[] { 1.0f,  1.0f,  1.5f,  1.0f,  0.67f, 0.75f }, // ¹¥»÷·½: Water 
+        new float[] { 1.0f,  0.67f, 0.67f, 1.5f,  1.0f,  0.75f }, // ¹¥»÷·½: Grass 
+        new float[] { 1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.5f }  // ¹¥»÷·½: Dark 
+    };
+
+    public static float GetDamageMultiplier(this ElementType attacker, ElementType defender)
+    {
+        int attackerIndex = (int)attacker;
+        int defenderIndex = (int)defender;
+
+        if (attackerIndex < 0 || attackerIndex >= DamageMatrix.Length ||
+            defenderIndex < 0 || defenderIndex >= DamageMatrix[attackerIndex].Length)
+        {
+            return 1.0f;
+        }
+
+        return DamageMatrix[attackerIndex][defenderIndex];
+    }
     public static string GetName(this ElementType type)
     {
         return type switch
@@ -26,6 +50,20 @@ public static class ElementExtensions
             ElementType.Grass => "²ÝÊôÐÔ",
             ElementType.Dark => "°µÊôÐÔ",
             _ => "ÎÞÊôÐÔ"
+        };
+    }
+
+    public static string GetTypeName(this ElementType type)
+    {
+        return type switch
+        {
+            ElementType.None => "none",
+            ElementType.Wind => "wind",
+            ElementType.Fire => "fire",
+            ElementType.Water => "water",
+            ElementType.Grass => "grass",
+            ElementType.Dark => "dark",
+            _ => "none"
         };
     }
 
@@ -61,4 +99,7 @@ public class ElementSeg : MagicSeg
     public float damageScale;
     public float costScale;
     public float speedScale;
+    public float distScale;
+    public float rateScale;
+    public int tier;
 }

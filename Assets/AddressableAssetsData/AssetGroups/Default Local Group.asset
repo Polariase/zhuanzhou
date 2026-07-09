@@ -22,6 +22,12 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0870de69d657dd744bdee996aac59676
+    m_Address: Assets/GameData/Magics/Element/Inferno.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0e66fd8adfa0bdf4cb2c6bfead6a24fe
     m_Address: "\u80E1\u841D\u535CIcon"
     m_ReadOnly: 0
@@ -32,6 +38,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - ItemData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 127323a5b8e7b8e4a9acf741cb0f22a0
+    m_Address: "\u6CD5\u672F\u9053\u5177"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 12fc2ea78e650c74ea8e3687eb72d048
+    m_Address: "\u6CD5\u672F\u9053\u5177Icon"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 14d468c8fbce6054ba3a4d1a2d173110
     m_Address: Item_1001
@@ -60,6 +76,24 @@ MonoBehaviour:
     m_SerializedLabels:
     - ItemData
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2647e64d611b83542a01a81a254ab445
+    m_Address: Assets/GameData/Magics/Arcana/MagicArrow.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2daed343f5a0c5a4da14a31eb30bc9fc
+    m_Address: Assets/GameData/Magics/Emitter/Common.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2f85775a31bc83a438ca3d9b8d35004e
+    m_Address: Assets/GameData/Magics/Emitter/Combo.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 30be264d3ca2f6943a1ca72fc766a6bf
     m_Address: "\u6728\u6750"
     m_ReadOnly: 0
@@ -75,10 +109,22 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 46502ed1a81f67448bb0e1126210a3db
+    m_Address: Assets/GameData/Magics/Modifier/Fast.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4adf73b386e73b64a85e575ada0b18e4
     m_Address: "\u77F3\u6750"
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4f421286c197dcc44b5052d516bf54ed
+    m_Address: Assets/GameData/Magics/Element/Spark.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5043a13599c0b3546b5dd64450cdf869
     m_Address: Item_2004
@@ -102,6 +148,24 @@ MonoBehaviour:
     m_SerializedLabels:
     - ItemData
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 70f76194e7d8d1c47863d24fc83b03ba
+    m_Address: Assets/GameData/Magics/Element/Flame.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 73e414649514bd843a1fe5299b8a0a6a
+    m_Address: Assets/GameData/Magics/Arcana/MagicLance.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 773137f35d5f0ed4faa318c8df0184b8
+    m_Address: Assets/GameData/Magics/Element/Billow.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 78aefde56f9a2cd4fb7cac921ce8b4b1
     m_Address: Item_2002
     m_ReadOnly: 0
@@ -112,6 +176,12 @@ MonoBehaviour:
     m_Address: "\u6728\u6750Icon"
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7c0724e4386857f46b317b68c99905bc
+    m_Address: Assets/GameData/Magics/Element/Moist.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7c48a5d6b980b904cadf5a8a0d06a906
     m_Address: Item_2006
@@ -124,6 +194,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - ItemData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 834f3018af5e4544987a8b7d7b6c7df3
+    m_Address: Assets/GameData/Magics/Element/Nature.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8c364f25ed42cab43bf361f23fe89235
+    m_Address: Assets/GameData/Magics/Element/Stream.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8c777d68addc9314586bbdb5219a4541
     m_Address: "\u80E1\u841D\u535C"
@@ -141,6 +223,24 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ae5eede75beb51a44bd1ea06fdbd0a60
+    m_Address: Assets/GameData/Magics/Modifier/Tiny.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ae87370aa66d35c41b26c1bf3ae464b3
+    m_Address: Assets/GameData/Magics/Emitter/Eruption.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ae88e3f89c6e7eb4dad94542efee376b
+    m_Address: Assets/GameData/Magics/Element/Storm.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: af7ec2efff304544b95dfbe16bc5b8ca
     m_Address: Item_2003
     m_ReadOnly: 0
@@ -152,21 +252,63 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc7e4ab8e4cae684e9e244311605f9b1
+    m_Address: Assets/GameData/Magics/Arcana/MagicWave.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c544675880262424fa0bbc15f214bc43
+    m_Address: Assets/GameData/Magics/Element/Overgrow.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c7dec80f713c63a46b0168a61d2a1de4
     m_Address: Item_2005
     m_ReadOnly: 0
     m_SerializedLabels:
     - ItemData
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc7b40947d5d7544d95a601924138a11
+    m_Address: Assets/GameData/Magics/Element/Airflow.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df837650ecd707541bc804e7550a436d
+    m_Address: Assets/GameData/Magics/Element/Breeze.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dfcdcbf544d89814fae81679e3271bad
     m_Address: "\u8304\u5B50"
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e32cc6c443196e540b69a941648947d5
+    m_Address: Assets/GameData/Magics/Element/Termination.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f34b6fa55d5c7c54d94426b16474c85e
     m_Address: "\u756A\u8304"
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f4c652a650088c743b4e80ca88243681
+    m_Address: Assets/GameData/Magics/Modifier/Huge.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f96e9e6a75995a844bbf26a4e85106d1
+    m_Address: Assets/GameData/Magics/Element/Lush.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - MagicSeg
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: fcec70eac1094bb4f9f3a1d1e772e307
     m_Address: Item_2001

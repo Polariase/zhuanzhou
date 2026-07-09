@@ -9,7 +9,9 @@ public class ArcanaSeg : MagicSeg
     public float damage;
     public float cost;
     public float speed;
-    public string iconAddress;
-    public string prefabAddress;
-    public GameObject projPrefab;
+    public float distance;
+    public float firerate;
+    public float detectSize;
+    public float size;
+    public string projKey;
 }

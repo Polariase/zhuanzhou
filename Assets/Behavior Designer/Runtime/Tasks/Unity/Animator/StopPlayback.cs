@@ -3,7 +3,7 @@ using UnityEngine;
 namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator
 {
     [TaskCategory("Unity/Animator")]
-    [TaskDescription("Stops the animator playback mode. Returns Success.")]
+    [TaskDescription("Stops the _anim playback mode. Returns Success.")]
     public class StopPlayback : Action
     {
         [Tooltip("The GameObject that the task operates on. If null the task GameObject is used.")]

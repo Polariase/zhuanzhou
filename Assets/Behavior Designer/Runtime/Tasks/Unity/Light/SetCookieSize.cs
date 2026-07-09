@@ -4,12 +4,12 @@ using UnityEngine;
 namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityLight
 {
     [TaskCategory("Unity/Light")]
-    [TaskDescription("Sets the light's cookie size.")]
+    [TaskDescription("Sets the light's cookie detectSize.")]
     public class SetCookieSize : Action
     {
         [Tooltip("The GameObject that the task operates on. If null the task GameObject is used.")]
         public SharedGameObject targetGameObject;
-        [Tooltip("The size to set")]
+        [Tooltip("The detectSize to set")]
         public SharedFloat cookieSize;
 
         // cache the light component

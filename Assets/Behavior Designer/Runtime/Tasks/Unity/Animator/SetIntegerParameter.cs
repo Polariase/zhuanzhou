@@ -4,7 +4,7 @@ using System.Collections;
 namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator
 {
     [TaskCategory("Unity/Animator")]
-    [TaskDescription("Sets the int parameter on an animator. Returns Success.")]
+    [TaskDescription("Sets the int parameter on an _anim. Returns Success.")]
     public class SetIntegerParameter : Action
     {
         [Tooltip("The GameObject that the task operates on. If null the task GameObject is used.")]

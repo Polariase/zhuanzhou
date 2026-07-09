@@ -3,12 +3,12 @@ using UnityEngine;
 namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityBoxCollider
 {
     [TaskCategory("Unity/BoxCollider")]
-    [TaskDescription("Sets the size of the BoxCollider. Returns Success.")]
+    [TaskDescription("Sets the detectSize of the BoxCollider. Returns Success.")]
     public class SetSize : Action
     {
         [Tooltip("The GameObject that the task operates on. If null the task GameObject is used.")]
         public SharedGameObject targetGameObject;
-        [Tooltip("The size of the BoxCollider")]
+        [Tooltip("The detectSize of the BoxCollider")]
         public SharedVector3 size;
 
         private BoxCollider boxCollider;

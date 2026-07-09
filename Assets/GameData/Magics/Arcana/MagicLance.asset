@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acc0da498adc59049bcd86e69bec9f6a, type: 3}
+  m_Name: MagicLance
+  m_EditorClassIdentifier: 
+  keyword: molibiaoqiang
+  segName: "\u9B54\u529B\u6807\u67AA"
+  description: "\u4EE5\u6807\u67AA\u7684\u5F62\u5F0F\u5B58\u5728\u7684\u653B\u51FB\u578B\u6CD5\u672F"
+  id: 20000
+  damage: 10
+  cost: 7
+  speed: 40
+  distance: 60
+  firerate: 1.5
+  detectSize: 0.06
+  size: 0.4
+  projKey: lance

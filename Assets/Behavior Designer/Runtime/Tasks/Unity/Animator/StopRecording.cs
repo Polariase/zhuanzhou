@@ -3,7 +3,7 @@ using UnityEngine;
 namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator
 {
     [TaskCategory("Unity/Animator")]
-    [TaskDescription("Stops animator record mode. Returns Success.")]
+    [TaskDescription("Stops _anim record mode. Returns Success.")]
     public class StopRecording : Action
     {
         [Tooltip("The GameObject that the task operates on. If null the task GameObject is used.")]

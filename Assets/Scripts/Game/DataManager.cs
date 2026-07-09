@@ -9,7 +9,9 @@ public class DataManager : MonoBehaviour
     public static DataManager Instance { get; private set; }
     private readonly Dictionary<int, ItemData> _itemCache = new();
     private readonly Dictionary<string, Sprite> _iconCache = new();
+    private readonly Dictionary<string, MagicSeg> _magicSegCache = new();
     private AsyncOperationHandle<IList<ItemData>> _itemLibHandle;
+    private AsyncOperationHandle<IList<MagicSeg>> _magicSegLibHandle;
     public bool IsInitialized { get; private set; } = false;
 
     private void Awake()
@@ -25,27 +27,31 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    private void Initialize()
+    private async void Initialize()
     {
-        LoadAllData();
+        await LoadAllData();
     }
 
-    private async void LoadAllData()
+    private async Task LoadAllData()
     {
         _itemLibHandle = Addressables.LoadAssetsAsync<ItemData>("ItemData", null);
-        await _itemLibHandle.Task;
+        _magicSegLibHandle = Addressables.LoadAssetsAsync<MagicSeg>("MagicSeg", null);
+        await Task.WhenAll(_itemLibHandle.Task, _magicSegLibHandle.Task);
 
-        if (_itemLibHandle.Status == AsyncOperationStatus.Succeeded)
+        bool itemLoadSuccess = _itemLibHandle.Status == AsyncOperationStatus.Succeeded;
+        bool magicLoadSuccess = _magicSegLibHandle.Status == AsyncOperationStatus.Succeeded;
+
+        if (itemLoadSuccess && magicLoadSuccess)
         {
             _itemCache.Clear();
+            _magicSegCache.Clear();
 
             List<Task> iconLoadingTasks = new List<Task>();
-
             HashSet<string> processingKeys = new HashSet<string>();
 
             foreach (var data in _itemLibHandle.Result)
             {
-                if (!_itemCache.ContainsKey(data.itemID))
+                if (data != null && !_itemCache.ContainsKey(data.itemID))
                 {
                     _itemCache.Add(data.itemID, data);
 
@@ -75,14 +81,35 @@ public class DataManager : MonoBehaviour
                 }
             }
 
+            processingKeys.Add("法术道具Icon");
+            iconLoadingTasks.Add(PreloadIconAsync("法术道具Icon"));
+
+            foreach (var seg in _magicSegLibHandle.Result)
+            {
+                if (seg != null)
+                {
+                    if (!string.IsNullOrEmpty(seg.keyword))
+                    {
+                        if (!_magicSegCache.ContainsKey(seg.keyword))
+                        {
+                            _magicSegCache.Add(seg.keyword, seg);
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"[DataManager] 发现了重复的 MagicSeg Keyword: {seg.keyword}");
+                        }
+                    }
+                }
+            }
+
             await Task.WhenAll(iconLoadingTasks);
 
             IsInitialized = true;
-            Debug.Log($"[DataManager] 成功加载了 {_itemCache.Count} 个配置及其所有独立图标。");
+            Debug.Log($"[DataManager] 初始化成功。缓存了 {_itemCache.Count} 个道具，{_magicSegCache.Count} 个魔法片段。");
         }
         else
         {
-            Debug.LogError("[DataManager] 道具配置加载失败！");
+            Debug.LogError($"[DataManager] 配置加载失败！ItemData状态: {_itemLibHandle.Status}, MagicSeg状态: {_magicSegLibHandle.Status}");
         }
     }
 
@@ -142,6 +169,26 @@ public class DataManager : MonoBehaviour
         {
             return sprite;
         }
+        return null;
+    }
+
+    public MagicSeg GetMagicSeg(string keyword)
+    {
+        if (_magicSegCache.TryGetValue(keyword, out var seg))
+        {
+            return seg;
+        }
+        return null;
+    }
+
+    public T GetMagicSeg<T>(string keyword) where T : MagicSeg
+    {
+        var seg = GetMagicSeg(keyword);
+        if (seg != null && seg is T targetSeg)
+        {
+            return targetSeg;
+        }
+        Debug.Log("fail to get");
         return null;
     }
 }

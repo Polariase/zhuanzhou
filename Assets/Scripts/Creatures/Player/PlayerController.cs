@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : CreatureController
 {
     public static PlayerController Instance
     {
@@ -22,21 +22,27 @@ public class PlayerController : MonoBehaviour
     private InputAction _aim;
     private InputAction _complete;
     private InputAction _backspace;
+    private InputAction _use;
 
     private Vector2 _inputDir;
     private CharacterController _cc;
     public Transform modelRoot;
+    public Transform mainFire;
+    public Transform triFire0;
+    public Transform triFire1;
+    public Transform triFire2;
     private CircleController _circle;
-    private Animator _anim;
 
     public bool isGrounded;
-    public bool isMoving;
     public bool isAiming;
     public bool isRunning;
     public bool isChanting;
+    public bool isCasting;
 
     public bool chantStart;
     public bool chantRecovery;
+
+    private bool _isUsingItem = false;
 
     [Header("Cinemachine")]
     public GameObject camTarget;
@@ -62,7 +68,6 @@ public class PlayerController : MonoBehaviour
     public LayerMask aimLayerMask = 0;
 
     [Header("Movement Settings")]
-    public float moveSpeed = 3f;
     public float runSpeedScale = 2f;
     public float airSpeedScale = 2f;
     public float rotationSpeed = 15f;
@@ -81,11 +86,11 @@ public class PlayerController : MonoBehaviour
     public float runCost = 10f;
 
     public bool CanAct => !chantStart && !chantRecovery;
-    public bool CanJump => isGrounded && stats.stamina >= jumpCost && !isChanting && CanAct;
-    public bool CanChant => isGrounded && !isChanting && CanAct;
+    public bool CanJump => isGrounded && stats.stamina >= jumpCost && !isChanting && CanAct && !isCasting;
+    public bool CanChant => isGrounded && !isChanting && CanAct && !isCasting;
     public bool CanMove => !isChanting && CanAct;
-    public bool CanRun => stats.stamina > 0f && isGrounded && !isAiming;
-
+    public bool CanRun => stats.stamina > 0f && isGrounded && !isAiming && !isCasting;
+    public bool CanUse => CanAct && isGrounded && !isChanting;
     public bool CanRecHp => true;
     public bool CanRecMana=> true;
     public bool CanRecSt => isGrounded;
@@ -109,7 +114,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void Awake()
+    protected override void Awake()
     {
         if (Instance == null)
             Instance = this;
@@ -132,6 +137,7 @@ public class PlayerController : MonoBehaviour
         _complete = _input.actions["Complete"];
         _backspace = _input.actions["Backspace"];
         _aim = _input.actions["Aim"];
+        _use = _input.actions["Use"];
 
         modelRoot = transform.Find("ModelRoot");
     }
@@ -157,6 +163,8 @@ public class PlayerController : MonoBehaviour
                 _animLandedState = false;
             }
         }
+
+        HandleItemUseTick();
 
         HandleMovement();
         HandleAnimation();
@@ -184,6 +192,8 @@ public class PlayerController : MonoBehaviour
         _cancel.performed += OnAbortAction;
         _aim.performed += OnAimAction;
         _aim.canceled += OnCancelAimAction;
+        _use.started += OnUseActionStarted;
+        _use.canceled += OnUseActionEnded;
     }
 
     private void UnbindActions()
@@ -193,6 +203,67 @@ public class PlayerController : MonoBehaviour
         _cancel.performed -= OnAbortAction;
         _aim.performed -= OnAimAction;
         _aim.canceled -= OnCancelAimAction;
+        _use.started -= OnUseActionStarted;
+        _use.canceled -= OnUseActionEnded;
+    }
+
+    private void OnUseActionStarted(InputAction.CallbackContext context)
+    {
+        _isUsingItem = true;
+
+        if (CanUse)
+        {
+            GetUseHandler()?.OnUseStart(CreateUseContext());
+        }
+    }
+
+    private void OnUseActionEnded(InputAction.CallbackContext context)
+    {
+        if (_isUsingItem)
+        {
+            _isUsingItem = false;
+            GetUseHandler()?.OnUseEnd(CreateUseContext());
+        }
+    }
+
+    private void HandleItemUseTick()
+    {
+        if (!_use.IsPressed())
+        {
+            if (_isUsingItem)
+            {
+                _isUsingItem = false;
+                GetUseHandler()?.OnUseEnd(CreateUseContext());
+            }
+            return;
+        }
+
+        if (!CanUse)
+        {
+            if (isCasting)
+            {
+                GetUseHandler()?.OnUseEnd(CreateUseContext());
+            }
+            return;
+        }
+
+        GetUseHandler()?.OnUseTick(CreateUseContext());
+    }
+
+    private IItemUseHandler GetUseHandler()
+    {
+        if (stats == null || stats.currentSelectedItem == null) return null;
+        if (stats.currentSelectedItem.runtimeData == null) return null;
+        return stats.currentSelectedItem.runtimeData.GetUseHandler();
+    }
+
+    private ItemUseContext CreateUseContext()
+    {
+        return new ItemUseContext
+        {
+            player = this,
+            mainCamera = _cam,
+        };
     }
 
     public void Initialize(PlayerStats st, CinemachineVirtualCamera cam)
@@ -302,7 +373,7 @@ public class PlayerController : MonoBehaviour
 
             currentSpeed = moveSpeed * SpeedScale();
 
-            if (isMoving && _cam != null)
+            if (_cam != null)
             {
                 Vector3 camForward = _cam.transform.forward;
                 Vector3 camRight = _cam.transform.right;
@@ -312,8 +383,14 @@ public class PlayerController : MonoBehaviour
                 camRight.Normalize();
 
                 moveTargetDir = camForward * _inputDir.y + camRight * _inputDir.x;
-                moveTargetDir.Normalize();
+                if (moveTargetDir.sqrMagnitude > 0.001f)
+                {
+                    moveTargetDir.Normalize();
+                }
+            }
 
+            if (_cam != null)
+            {
                 if (isAiming && isGrounded)
                 {
                     Ray ray = _cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
@@ -334,10 +411,10 @@ public class PlayerController : MonoBehaviour
                     if (lookDir.sqrMagnitude > 0.001f)
                     {
                         Quaternion targetRotation = Quaternion.LookRotation(lookDir);
-                        modelRoot.rotation = Quaternion.Slerp(modelRoot.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+                        modelRoot.rotation = Quaternion.Slerp(modelRoot.rotation, targetRotation, Time.deltaTime * 2f *rotationSpeed);
                     }
                 }
-                else
+                else if (isMoving)
                 {
                     Quaternion targetRotation = Quaternion.LookRotation(moveTargetDir);
                     modelRoot.rotation = Quaternion.Slerp(modelRoot.rotation, targetRotation, Time.deltaTime * rotationSpeed);
@@ -397,6 +474,7 @@ public class PlayerController : MonoBehaviour
         _anim.SetFloat("X", targetAnimX, animDampTime, Time.deltaTime);
         _anim.SetFloat("Y", targetAnimY, animDampTime, Time.deltaTime);
         _anim.SetBool("Landed", _animLandedState);
+        _anim.SetBool("Casting", isCasting);
     }
 
     private void HandleRotation()

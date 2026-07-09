@@ -8,4 +8,7 @@ public class ModifierSeg : MagicSeg
     public float damageScale;
     public float costScale;
     public float speedScale;
+    public float distScale;
+    public float rateScale;
+    public float sizeScale;
 }

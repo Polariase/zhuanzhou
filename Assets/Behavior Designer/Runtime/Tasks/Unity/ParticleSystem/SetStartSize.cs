@@ -3,12 +3,12 @@ using UnityEngine;
 namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityParticleSystem
 {
     [TaskCategory("Unity/ParticleSystem")]
-    [TaskDescription("Sets the start size of the Particle System.")]
+    [TaskDescription("Sets the start detectSize of the Particle System.")]
     public class SetStartSize : Action
     {
         [Tooltip("The GameObject that the task operates on. If null the task GameObject is used.")]
         public SharedGameObject targetGameObject;
-        [Tooltip("The start size of the ParticleSystem")]
+        [Tooltip("The start detectSize of the ParticleSystem")]
         public SharedFloat startSize;
 
         private ParticleSystem particleSystem;

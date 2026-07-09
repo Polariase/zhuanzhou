@@ -95,7 +95,15 @@ public class InventoryData
 
     public InventoryItem AddItem(InventoryItem incomingItem)
     {
-        if (incomingItem == null || incomingItem.runtimeData.ItemID <= 0) return null;
+        if (incomingItem == null || incomingItem.runtimeData.ItemID <= 0)
+        {
+            if (incomingItem == null)
+                Debug.LogWarning(incomingItem == null);
+            else
+                Debug.LogWarning(incomingItem.runtimeData.ItemID);
+            return null;
+        }
+            
         if (!Acceptable(incomingItem)) return incomingItem;
 
         int maxStack = incomingItem.runtimeData.MaxStack;

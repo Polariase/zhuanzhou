@@ -8,6 +8,7 @@ public class PoolManager : MonoBehaviour
     public static PoolManager Instance;
     public ItemObjectPool item;
     public PopupPool popup;
+    public ProjPool proj;
 
     public void Awake()
     {

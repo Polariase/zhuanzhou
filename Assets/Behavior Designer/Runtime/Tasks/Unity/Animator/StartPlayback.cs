@@ -3,7 +3,7 @@ using UnityEngine;
 namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator
 {
     [TaskCategory("Unity/Animator")]
-    [TaskDescription("Sets the animator in playback mode.")]
+    [TaskDescription("Sets the _anim in playback mode.")]
     public class StartPlayback : Action
     {
         [Tooltip("The GameObject that the task operates on. If null the task GameObject is used.")]

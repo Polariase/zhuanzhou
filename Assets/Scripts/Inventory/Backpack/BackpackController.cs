@@ -22,42 +22,38 @@ public class BackpackController : BaseInventoryController
     {
         if (Input.GetKeyDown(KeyCode.Keypad0))
         {
-            inventoryData.AddItem(1001, 1);
+            ArcanaSeg arcana = DataManager.Instance.GetMagicSeg<ArcanaSeg>("mofajian");
+            ModifierSeg mod = DataManager.Instance.GetMagicSeg<ModifierSeg>("weixing");
+            ElementSeg ele = DataManager.Instance.GetMagicSeg<ElementSeg>("huohua");
+            EmitterSeg em = DataManager.Instance.GetMagicSeg<EmitterSeg>("changgui");
+            MagicItemRuntime mr = new(arcana, ele, em, mod);
+            inventoryData.AddItem(new InventoryItem(mr, 1));
         }
-
         if (Input.GetKeyDown(KeyCode.Keypad1))
         {
-            inventoryData.AddItem(1002, 1);
+            ArcanaSeg arcana = DataManager.Instance.GetMagicSeg<ArcanaSeg>("molibiaoqiang");
+            ModifierSeg mod = DataManager.Instance.GetMagicSeg<ModifierSeg>("juxing");
+            ElementSeg ele = DataManager.Instance.GetMagicSeg<ElementSeg>("jiliu");
+            EmitterSeg em = DataManager.Instance.GetMagicSeg<EmitterSeg>("changgui");
+            MagicItemRuntime mr = new(arcana, ele, em, mod);
+            inventoryData.AddItem(new InventoryItem(mr, 1));
         }
-
         if (Input.GetKeyDown(KeyCode.Keypad2))
         {
-            inventoryData.AddItem(1003, 1);
+            ArcanaSeg arcana = DataManager.Instance.GetMagicSeg<ArcanaSeg>("molizhendangbo");
+            ModifierSeg mod = DataManager.Instance.GetMagicSeg<ModifierSeg>("gaosu");
+            ElementSeg ele = DataManager.Instance.GetMagicSeg<ElementSeg>("maosheng");
+            EmitterSeg em = DataManager.Instance.GetMagicSeg<EmitterSeg>("changgui");
+            MagicItemRuntime mr = new(arcana, ele, em, mod);
+            inventoryData.AddItem(new InventoryItem(mr, 1));
         }
-
         if (Input.GetKeyDown(KeyCode.Keypad3))
         {
-            inventoryData.AddItem(1004, 1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Keypad4))
-        {
-            inventoryData.AddItem(2001, 5);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Keypad5))
-        {
-            inventoryData.AddItem(2002, 5);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Keypad6))
-        {
-            inventoryData.AddItem(2003, 1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Keypad7))
-        {
-            inventoryData.AddItem(2004, 1);
+            ArcanaSeg arcana = DataManager.Instance.GetMagicSeg<ArcanaSeg>("mofajian");
+            ElementSeg ele = DataManager.Instance.GetMagicSeg<ElementSeg>("weifeng");
+            EmitterSeg em = DataManager.Instance.GetMagicSeg<EmitterSeg>("changgui");
+            MagicItemRuntime mr = new(arcana, ele, em, null);
+            inventoryData.AddItem(new InventoryItem(mr, 1));
         }
     }
 }

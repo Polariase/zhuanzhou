@@ -13,7 +13,7 @@ using UnityEngine.UI;
 namespace Synty.Interface.FantasyWarriorHUD.Samples
 {
     /// <summary>
-    ///     Executes a list of animator actions and toggles a list of game objects on click.
+    ///     Executes a list of _anim actions and toggles a list of game objects on click.
     /// </summary>
     public class SampleButtonAction : MonoBehaviour
     {

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5d592e8e7b444947be230dd2bc38800, type: 3}
+  m_Name: Common
+  m_EditorClassIdentifier: 
+  keyword: changgui
+  segName: "\u5E38\u89C4"
+  description: "\u6700\u666E\u901A\u7684\u53D1\u5C04\u65B9\u5F0F"
+  id: 200

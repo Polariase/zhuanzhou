@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 829c6f6d3160be14ca6735b268320a8f, type: 3}
+  m_Name: Fast
+  m_EditorClassIdentifier: 
+  keyword: gaosu
+  segName: "\u9AD8\u901F"
+  description: "\u63D0\u9AD8\u901F\u5EA6\u964D\u4F4E\u5A01\u529B"
+  id: 1000
+  damageScale: 0.9
+  costScale: 1.1
+  speedScale: 1.2
+  distScale: 1
+  rateScale: 1.2
+  sizeScale: 0
