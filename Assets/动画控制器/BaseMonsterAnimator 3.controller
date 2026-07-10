@@ -21,7 +21,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -8536138527181957292, guid: bf0b56cb70069674f8b9231b333a82be,
+  m_Motion: {fileID: 5871664063108629362, guid: 63565c0d7bff88d489405261c33452ed,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -78,7 +78,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 6200578666267062213, guid: bf0b56cb70069674f8b9231b333a82be,
+  m_Motion: {fileID: -7502690981148334743, guid: 63565c0d7bff88d489405261c33452ed,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -194,7 +194,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -6758483313513240000, guid: bf0b56cb70069674f8b9231b333a82be,
+  m_Motion: {fileID: -459984844188511363, guid: 63565c0d7bff88d489405261c33452ed,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -232,7 +232,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BaseMonsterAnimator
+  m_Name: BaseMonsterAnimator 3
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Speed
@@ -397,7 +397,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -3419257869308726280, guid: bf0b56cb70069674f8b9231b333a82be,
+  m_Motion: {fileID: 7738346199888341229, guid: 63565c0d7bff88d489405261c33452ed,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -426,7 +426,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -5252816984213320552, guid: bf0b56cb70069674f8b9231b333a82be,
+  m_Motion: {fileID: 8499830230231481432, guid: 63565c0d7bff88d489405261c33452ed,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
