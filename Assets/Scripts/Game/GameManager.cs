@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
             currentGameState = GameState.Entry;
             UIManager.Instance.SetUIMode(GameState.Entry);
         }
-        else if(sceneName == "SurvivalScene")
+        else if(sceneName == "SurvivalScene" || sceneName == "BossScene")
         {
             currentGameState = GameState.Survival;
             globalStats.ClearAllSubscribers();

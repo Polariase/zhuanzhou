@@ -191,4 +191,9 @@ public class DataManager : MonoBehaviour
         Debug.Log("fail to get");
         return null;
     }
+
+    public List<string> GetAllMagicSegKeywords()
+    {
+        return new List<string>(_magicSegCache.Keys);
+    }
 }

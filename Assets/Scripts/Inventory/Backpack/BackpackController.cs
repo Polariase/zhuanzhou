@@ -73,5 +73,10 @@ public class BackpackController : BaseInventoryController
             MagicItemRuntime mr = new(arcana, ele, em, mod);
             inventoryData.AddItem(new InventoryItem(mr, 1));
         }
+        if (Input.GetKeyDown(KeyCode.Keypad6))
+        {
+            inventoryData.AddItem(new(DataManager.Instance.GetItemData(1001),10));
+            inventoryData.AddItem(new(DataManager.Instance.GetItemData(1002), 10));
+        }
     }
 }

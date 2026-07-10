@@ -93,16 +93,48 @@ public class FoodItemRuntime : ItemRuntimeData, IItemUseHandler
 
     public void OnUseStart(ItemUseContext context)
     {
-        throw new NotImplementedException();
+        PlayerController player = context.player;
+        if (player == null || player.stats == null) return;
+
+        PlayerStats stats = player.stats;
+
+        // --- 1. 增加对应的元素潜力值 ---
+        if (WindPot > 0) AddPotential(stats, ElementType.Wind, WindPot);
+        if (FirePot > 0) AddPotential(stats, ElementType.Fire, FirePot);
+        if (WaterPot > 0) AddPotential(stats, ElementType.Water, WaterPot);
+        if (GrassPot > 0) AddPotential(stats, ElementType.Grass, GrassPot);
+        if (DarkPot > 0) AddPotential(stats, ElementType.Dark, DarkPot);
+
+        if (stats.currentSelectedIndex > 0)
+        {
+
+            HotbarController hotbar = InventoryManager.Instance.hotbar;
+
+            int dataIndex = stats.currentSelectedIndex - 1;
+
+            InventoryItem currentItem = hotbar.GetData().GetItem(dataIndex);
+            if (currentItem != null && currentItem.runtimeData == this)
+            {
+                hotbar.GetData().RemoveItem(dataIndex, 1);
+            }
+        }
     }
 
     public void OnUseTick(ItemUseContext context)
     {
-        throw new NotImplementedException();
+
     }
 
     public void OnUseEnd(ItemUseContext context)
     {
-        throw new NotImplementedException();
+
+    }
+
+    private void AddPotential(PlayerStats stats, ElementType elementType, float amount)
+    {
+        if (stats.elementStats.TryGetValue(elementType, out ElementStats element))
+        {
+            element.pot += amount;
+        }
     }
 }

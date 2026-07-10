@@ -3596,6 +3596,7 @@ MonoBehaviour:
   player: {fileID: 3674084902308219626, guid: 90d812ea474ee124d84312dec7a33721, type: 3}
   hitColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.1
+  itemId: 2008
 --- !u!1 &8143911649439625886
 GameObject:
   m_ObjectHideFlags: 0

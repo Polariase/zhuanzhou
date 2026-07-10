@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class DeathPanel : BasePanel
 {
     public Button _actionButton;
-    public string _shelterSceneName = "ShelterScene";
+    public string _sceneName = "SurvivalScene";
 
     protected override void Awake()
     {
@@ -25,7 +25,7 @@ public class DeathPanel : BasePanel
     private void OnReturnClicked()
     {
         if (_actionButton != null) _actionButton.interactable = false;
-        //GameSceneManager.Instance.LoadScene(_shelterSceneName);
+        GameSceneManager.Instance.LoadScene(_sceneName);
         if (_actionButton != null) _actionButton.interactable = true;
     }
 }

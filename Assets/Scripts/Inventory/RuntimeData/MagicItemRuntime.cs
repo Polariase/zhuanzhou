@@ -204,7 +204,8 @@ public class MagicItemRuntime : ItemRuntimeData,IItemUseHandler
             {
                 projScript.speed = Speed;
                 projScript.detectionRadius = DetectSize;
-                projScript.InitProjectile(firePosition, fireRotation, Dist, Size, Damage, Element);
+                projScript.InitProjectile(firePosition, fireRotation, Dist, Size,
+                    Damage * (1f + 0.1f * (PlayerController.Instance.stats.elementStats[Element].lvl - 1)), Element);
             }
         }
 

@@ -343,7 +343,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 1.5
   capsule: {fileID: 0}
-  creatureElement: 0
+  creatureElement: 3
   isDead: 0
   isMoving: 0
   isInvincible: 0
@@ -355,6 +355,7 @@ MonoBehaviour:
   player: {fileID: 0}
   hitColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.1
+  itemId: 2005
 --- !u!1 &2163858263813170074
 GameObject:
   m_ObjectHideFlags: 0

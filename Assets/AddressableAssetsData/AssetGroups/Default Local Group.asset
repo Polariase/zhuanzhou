@@ -229,12 +229,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - MagicSeg
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ae87370aa66d35c41b26c1bf3ae464b3
-    m_Address: Assets/GameData/Magics/Emitter/Eruption.asset
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - MagicSeg
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ae88e3f89c6e7eb4dad94542efee376b
     m_Address: Assets/GameData/Magics/Element/Storm.asset
     m_ReadOnly: 0

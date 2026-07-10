@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using MyPool;
 
 public class MonsterAI : CreatureController
 {
@@ -29,6 +30,8 @@ public class MonsterAI : CreatureController
     private Renderer[] renderers;
     private Coroutine flashCoroutine;
 
+    public int itemId;
+
     protected override void Awake()
     {
         base.Awake();
@@ -40,13 +43,6 @@ public class MonsterAI : CreatureController
         agent.autoBraking = false;
         agent.stoppingDistance = 0f;
         agent.speed = moveSpeed;
-
-        // ---- 玩家 ----
-        if (player == null)
-        {
-            GameObject p = GameObject.FindGameObjectWithTag("Player");
-            if (p != null) player = p.transform;
-        }
 
         // ---- 材质缓存 ----
         renderers = GetComponentsInChildren<Renderer>();
@@ -78,6 +74,8 @@ public class MonsterAI : CreatureController
 
     void Update()
     {
+        if (player == null && PlayerController.Instance != null)
+            player = PlayerController.Instance.transform;
         if (isDead) return;
 
         // ---- 逃跑状态 ----
@@ -167,6 +165,7 @@ public class MonsterAI : CreatureController
         if (isDead) return false;
 
         currentHealth -= Mathf.RoundToInt(damage);
+        PoolManager.Instance.popup.GetAndSet("DamageText", hitPoint, Mathf.RoundToInt(damage), isElementAdvantage);
         if (currentHealth <= 0)
         {
             Die();
@@ -212,7 +211,7 @@ public class MonsterAI : CreatureController
     }
 
     // ---- 死亡 ----
-    public override void Die()
+    public async override void Die()
     {
         if (isDead) return;
         isDead = true;
@@ -228,7 +227,27 @@ public class MonsterAI : CreatureController
 
         Collider col = GetComponent<Collider>();
         if (col != null) col.enabled = false;
+        await PoolManager.Instance.item.SpawnAndThrowItemAsync(
+        new(DataManager.Instance.GetItemData(itemId), 1),
+        HitPoint(),
+        player.position - HitPoint());
 
+        float r = Random.Range(0f, 1f);
+        if (r < 0.2f)
+            await PoolManager.Instance.item.SpawnAndThrowItemAsync(
+        new(DataManager.Instance.GetItemData(1001), 3),
+        HitPoint(),
+        player.position - HitPoint());
+        else if (r > 0.8f)
+            await PoolManager.Instance.item.SpawnAndThrowItemAsync(
+        new(DataManager.Instance.GetItemData(1002), 3),
+        HitPoint(),
+        player.position - HitPoint());
+
+        foreach (var x in PlayerController.Instance.stats.elementStats)
+        {
+            x.Value.GainExp(10);
+        }
         Invoke(nameof(DisableMonster), 2f);
     }
 

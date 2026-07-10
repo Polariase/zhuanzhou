@@ -1,4 +1,5 @@
 using Cinemachine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -99,17 +100,15 @@ public class PlayerController : CreatureController
     public float SpeedScale()
     {
         float scale = 1f;
+        int windLv = stats.elementStats[ElementType.Wind].lvl;
+        if (windLv > 1)
+        {
+            scale += scale * (windLv - 1) * 0.2f;
+        }
         if (isRunning && isGrounded)
             scale *= runSpeedScale;
         else if (!isGrounded)
             scale *= airSpeedScale;
-
-        int windLv = stats.elementStats[ElementType.Wind].lvl;
-        if (windLv > 1)
-        {
-            scale += scale * (windLv - 1) * 0.1f;
-        }
-
         return scale;
     }
 
@@ -167,6 +166,38 @@ public class PlayerController : CreatureController
 
         HandleMovement();
         HandleAnimation();
+
+        if (Input.GetKeyDown(KeyCode.Keypad9))
+        {
+            if (DataManager.Instance != null && stats != null)
+            {
+                List<string> allKeywords = DataManager.Instance.GetAllMagicSegKeywords();
+                HashSet<string> keywordSet = new HashSet<string>(stats.unlockedMagicKeywords);
+                int beforeCount = keywordSet.Count;
+                foreach (var keyword in allKeywords)
+                {
+                    if (!string.IsNullOrEmpty(keyword))
+                    {
+                        keywordSet.Add(keyword);
+                    }
+                }
+                stats.unlockedMagicKeywords = new List<string>(keywordSet);
+
+                int addedCount = stats.unlockedMagicKeywords.Count - beforeCount;
+                Debug.Log($"[GM指令] 一键解锁所有魔法符号！原有: {beforeCount} 个，新解锁: {addedCount} 个，当前总计: {stats.unlockedMagicKeywords.Count} 个。");
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad8))
+        {
+            foreach(var x in stats.elementStats)
+            {
+                x.Value.GainExp(10);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad7))
+        {
+            TakeDamage(20, HitPoint(), true);
+        }
     }
 
     private void LateUpdate()
@@ -304,14 +335,15 @@ public class PlayerController : CreatureController
 
     private void Recovery()
     {
+        float value = Time.deltaTime * (1f + 0.2f * (stats.elementStats[ElementType.Water].lvl - 1));
         if (CanRecHp)
-            stats.RecoverHp(Time.deltaTime);
+            stats.RecoverHp(value);
 
         if (CanRecMana)
-            stats.RecoverMana(Time.deltaTime);
+            stats.RecoverMana(value);
 
         if (CanRecSt)
-            stats.RecoverStamina(Time.deltaTime);
+            stats.RecoverStamina(value);
     }
 
     private void OnAimAction(InputAction.CallbackContext context) => isAiming = true;
@@ -442,7 +474,8 @@ public class PlayerController : CreatureController
 
         if (_jumpRequested)
         {
-            _velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            float curJumpHeight = jumpHeight * (1f + 0.2f * (stats.elementStats[ElementType.Wind].lvl - 1));
+            _velocity.y = Mathf.Sqrt(curJumpHeight * -2f * gravity);
             _jumpRequested = false;
             _animLandedState = false;
 
@@ -516,6 +549,50 @@ public class PlayerController : CreatureController
         {
             float targetFOV = isAiming ? aimFOV : normalFOV;
             _vCam.m_Lens.FieldOfView = Mathf.Lerp(_vCam.m_Lens.FieldOfView, targetFOV, Time.deltaTime * fovSmoothSpeed);
+        }
+    }
+
+    public override bool TakeDamage(float damage, Vector3 hitPoint, bool isElementAdvantage)
+    {
+        if (stats.hp <= 0) return false;
+        stats.Heal(-damage);
+        PopupManager.Instance.ShowDamage(hitPoint, Mathf.RoundToInt(damage), isElementAdvantage);
+        if (stats.hp <= 0)
+        {
+            Die();
+            return true;
+        }
+
+        return false;
+    }
+
+    public override void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+        if (_input != null && _input.currentActionMap != null)
+        {
+            _input.currentActionMap.Disable();
+        }
+        isCasting = false;
+        isAiming = false;
+        isChanting = false;
+        isMoving = false;
+
+        if (_anim != null)
+        {
+            _anim.SetBool("Dead", true);
+        }
+
+        StartCoroutine(ShowDeathPanelDelayRoutine());
+    }
+
+    private IEnumerator ShowDeathPanelDelayRoutine()
+    {
+        yield return new WaitForSeconds(2f);
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.ShowDeathPanel();
         }
     }
 }
